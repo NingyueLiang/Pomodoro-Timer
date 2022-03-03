@@ -18,8 +18,8 @@ const initAuth = () => {
     firebaseAuthEmulatorHost: 'localhost:9099',
     firebaseAdminInitConfig: {
       credential: {
-        projectId: 'my-example-app-id',
-        clientEmail: 'example-abc123@my-example-app.iam.gserviceaccount.com',
+        projectId: 'foocus-ec1af',
+        clientEmail: 'firebase-adminsdk-uyxuf@foocus-ec1af.iam.gserviceaccount.com',
         // The private key must not be accessible on the client side.
         privateKey: process.env.FIREBASE_PRIVATE_KEY,
       },
@@ -34,7 +34,7 @@ const initAuth = () => {
       projectId: 'my-example-app-id',
     },
     cookies: {
-      name: 'ExampleApp', // required
+      name: 'Foocus', // required
       // Keys are required unless you set `signed` to `false`.
       // The keys cannot be accessible on the client side.
       keys: [
@@ -46,7 +46,7 @@ const initAuth = () => {
       overwrite: true,
       path: '/',
       sameSite: 'strict',
-      secure: true, // set this to false in local (non-HTTPS) development
+      secure: false, // set this to false in local (non-HTTPS) development
       signed: true,
     },
     onVerifyTokenError: (err) => {
