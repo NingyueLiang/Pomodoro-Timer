@@ -1,11 +1,9 @@
 import React from "react";
 
 function Footer() {
-    var date = new Date()
-    var year = date.getFullYear();
     return (
     <footer>
-    <p>Copyright ⓒ {year}</p>
+    <p>CSE 437S Spring 2022</p>
     </footer>
     );
 }

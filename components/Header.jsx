@@ -1,9 +1,17 @@
 import React from "react"
+import Link from 'next/link'
 
 function Header(){
+
     return (
         <header>
+        Read{' '}
+        <Link href="/signup">
+            <button>Sign up</button>
+        </Link>
+
         <h1 className="header">Foocus</h1>
+        
         </header>
     );
 }
