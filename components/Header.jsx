@@ -1,5 +1,5 @@
 import React from "react"
-import Link from 'next/link'
+
 import firebase from "../firebase/clientApp";
 
 function Header() {
@@ -9,9 +9,6 @@ function Header() {
 
     return (
         <header>
-            <Link href="/signup">
-                <button>Sign up</button>
-            </Link>
             <h1 className="header">Foocus</h1>
             <button onClick={signOutUser}>SignOut</button>
         </header>
