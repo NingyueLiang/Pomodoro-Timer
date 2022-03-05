@@ -9,6 +9,8 @@ import Todolist from "../components/Todolist";
 import Timer from "../components/Timer";
 import Auth from "../components/Auth";
 
+import Link from 'next/link'
+
 import { useAuthState } from "react-firebase-hooks/auth";
 import firebase from "../firebase/clientApp";
 
@@ -24,7 +26,13 @@ export default function Home() {
   return (
     <div>
       {loading && <h4>Loading...</h4>}
-      {!user && <Auth />}
+      {!user && 
+      <>
+            <Link href="/signup">
+                <button>Sign up</button>
+            </Link>
+            <Auth />
+      </>}
       {user && (
         <>
           <Header />
