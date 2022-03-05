@@ -1,9 +1,15 @@
 import React from "react"
+import firebase from "../firebase/clientApp";
 
-function Header(){
+function Header() {
+    function signOutUser(){
+        firebase.auth().signOut();
+    }
+
     return (
         <header>
-        <h1 className="header">Foocus</h1>
+            <h1 className="header">Foocus</h1>
+            <button onClick={signOutUser}>SignOut</button>
         </header>
     );
 }
