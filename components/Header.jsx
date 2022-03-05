@@ -5,7 +5,6 @@ function Header(){
 
     return (
         <header>
-        Read{' '}
         <Link href="/signup">
             <button>Sign up</button>
         </Link>
