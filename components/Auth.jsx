@@ -9,7 +9,8 @@ const uiConfig = {
     signInSuccessUrl: "/",
     // We will display GitHub as auth providers.
     signInOptions: [GithubAuthProvider.PROVIDER_ID,
-                    GoogleAuthProvider.PROVIDER_ID],
+                    GoogleAuthProvider.PROVIDER_ID,
+                    firebase.auth.EmailAuthProvider.PROVIDER_ID],
 };
 
 function SignInScreen(){
