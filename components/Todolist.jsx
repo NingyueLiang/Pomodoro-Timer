@@ -1,10 +1,23 @@
 import React, { useState } from "react";
 import TodoItem from "./TodoItem";
+import {db, auth } from "../firebase/clientApp"
+import { addDoc, collection } from "firebase/firestore";
 
 function Todolist(props) {
   const [inputText, setInputText] = useState("");
   const [items, setItems] = useState([]);
   const [showElem, setShowElem] = useState(true);
+  // const postsCollectionRef = collection(db, "posts");
+  const postsCollectionRef = collection(db, `users/${auth.currentUser.uid}/todos`);
+
+
+
+  const add2DB = async () => {
+    await addDoc(postsCollectionRef, {
+      inputText,
+      author: { name: auth.currentUser.displayName, id: auth.currentUser.uid },
+    });
+  };
 
   function handleChange(event) {
     const newValue = event.target.value;
@@ -16,6 +29,10 @@ function Todolist(props) {
       return [...prevItems, inputText];
     });
     setInputText("");
+    add2DB();
+
+
+
   }
   function deleteItem(id) {
     setItems((preValue) =>
