@@ -57,8 +57,6 @@ const Timer = (props) => {
     setQRValue(baseURL + strValue);
 
     setQRVisible(true);
-    
-    console.log(router.query);
   }
 
   const toggleShowQR = () => {
