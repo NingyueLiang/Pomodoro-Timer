@@ -1,7 +1,3 @@
-import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
-
 import React, { useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -14,6 +10,7 @@ import firebase from "../firebase/clientApp";
 
 export default function Home() {
   const [curTodo, setCurTodo] = useState();
+
   function handleTimerTitle(title) {
     setCurTodo(title);
   }
@@ -24,19 +21,15 @@ export default function Home() {
   return (
     <div>
       {loading && <h4>Loading...</h4>}
-      {!user && 
-      <>
-            <Auth />
-      </>}
-      {user && (
+      {!user && <Auth />}
+      {user && 
         <>
           <Header />
           <h1>{curTodo}</h1>
           <Todolist getTitle={handleTimerTitle} />
-          <Timer initialMinute={25} initialSeconds={0} />
+          <Timer/>
           <Footer />
-        </>
-      )}
+        </>}
     </div>
   );
 }
