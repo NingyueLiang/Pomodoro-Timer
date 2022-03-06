@@ -16,15 +16,16 @@ const Timer = (props) => {
 
   useEffect(() => {
     const countdownInterval = setInterval(() => {
-      if (isCountingDown){
+      if (props.isQR || isCountingDown){
         if (seconds > 0) {
           setSeconds(seconds - 1);
         }
-        else if (seconds === 0) {
-          if (minutes === 0) {
+        else if (seconds == 0) {
+          if (minutes == 0) {
             clearInterval(countdownInterval);
           } 
           else {
+            console.log('test', props.isQR, seconds, minutes)
             setMinutes(minutes - 1);
             setSeconds(59);
           }
@@ -52,7 +53,9 @@ const Timer = (props) => {
     handlePause();
 
     const baseURL = 'https://foocus.vercel.app/qr';
-    const strValue = '?minutes=' + minutes + '&seconds=' + seconds;
+    // const strValue = '?minutes=' + minutes + '&seconds=' + seconds;
+    const isQR = true;
+    const strValue = '?minutes=' + minutes + '&seconds=' + seconds + '&isQR=' + isQR;
     console.log(baseURL + strValue);
     setQRValue(baseURL + strValue);
 
