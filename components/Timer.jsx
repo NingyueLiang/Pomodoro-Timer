@@ -51,7 +51,7 @@ const Timer = (props) => {
   const handleCreateQRCode = () => {
     handlePause();
 
-    const baseURL = 'http://localhost:3000/qr';
+    const baseURL = 'https://foocus.vercel.app/qr';
     const strValue = '?minutes=' + minutes + '&seconds=' + seconds;
     console.log(baseURL + strValue);
     setQRValue(baseURL + strValue);
