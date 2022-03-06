@@ -1,10 +1,48 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TodoItem from "./TodoItem";
+import {db, auth } from "../firebase/clientApp"
+import { addDoc, getDocs,deleteDoc, doc, collection } from "firebase/firestore";
+
 
 function Todolist(props) {
   const [inputText, setInputText] = useState("");
   const [items, setItems] = useState([]);
   const [showElem, setShowElem] = useState(true);
+  // const postsCollectionRef = collection(db, "posts");
+  const postsCollectionRef = collection(db, `users/${auth.currentUser.uid}/todos`);
+
+
+  const add2DB = async () => {
+    await addDoc(postsCollectionRef, {
+      inputText,
+      author: { name: auth.currentUser.displayName, id: auth.currentUser.uid },
+    });
+  };
+  
+  useEffect(() => {
+    console.log('test1');
+    const getItems = async () => {
+      const data = await getDocs(postsCollectionRef);
+      setItems(data.docs.map((doc) => ({...doc.data(), id: doc.id })));
+    };
+
+    getItems();
+  }, [deleteItem]);
+
+  
+  const deleteItem = async (id) => {
+    console.log("test");
+    // setItems([]);
+    const getItems = async () => {
+      const data = await getDocs(postsCollectionRef);
+      setItems(data.docs.map((doc) => ({...doc.data(), id: doc.id })));
+    };
+    getItems();
+
+    const postDoc = doc(db, `users/${auth.currentUser.uid}/todos`, id);
+    await deleteDoc(postDoc);
+  };
+
 
   function handleChange(event) {
     const newValue = event.target.value;
@@ -12,30 +50,38 @@ function Todolist(props) {
   }
 
   function addItem() {
-    setItems((prevItems) => {
-      return [...prevItems, inputText];
-    });
+
+    console.log(items);
+    add2DB();
+
+    const getItems = async () => {
+      const data = await getDocs(postsCollectionRef);
+      setItems(data.docs.map((doc) => ({...doc.data(), id: doc.id })));
+    };
+    getItems();
+
     setInputText("");
+
+
   }
-  function deleteItem(id) {
-    setItems((preValue) =>
-      preValue.filter((item, idx) => {
-        return idx !== id;
-      })
-    );
-  }
+  // function deleteItem(id) {
+  //   // setItems((preValue) =>
+  //   //   preValue.filter((item, idx) => {
+  //   //     return idx !== id;
+  //   //   })
+  //   // );
+  //   deletePost(id)  
+
+  // }
   function handleToTimer (id){
-    console.log("test");
     return (() => {
         return props.getTitle("yes");
       });
   }
 
-
   function handleShow (){
     setShowElem(!showElem)
   }
-  
 
 
 
@@ -51,7 +97,7 @@ function Todolist(props) {
         </button>
       </div>
       <div>
-        <ul>
+        {/* <ul>
           {items.map((todoItem, todoIdx) => (
             // <li>{todoItem}</li>
             <TodoItem
@@ -62,7 +108,20 @@ function Todolist(props) {
               toTimer={handleToTimer}
             />
           ))}
+        </ul> */}
+        <ul>
+          {items.map((item, idx) => (
+            // <li>{todoItem}</li>
+            <TodoItem
+              key={idx}
+              id={item.id}
+              item={item.inputText}
+              toDelete={deleteItem}
+              toTimer={handleToTimer}
+            />
+          ))}
         </ul>
+
       </div>
     </div>
   );

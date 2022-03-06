@@ -5,8 +5,8 @@ import firebase from 'firebase/compat/app';
 import "firebase/compat/auth"
 // import "firebase/firestore"
 import 'firebase/compat/firestore';
-
-
+import { getFirestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
 const clientCredentials = {
     apiKey: "AIzaSyCeNPFmLZCgrFtvtX2fD9iMps155S5bGMU",
@@ -18,8 +18,11 @@ const clientCredentials = {
     measurementId: "G-QQRP5QGTLV"
   };
   
-  if (!firebase.apps.length){
-      firebase.initializeApp(clientCredentials);
-  }
+//   if (!firebase.apps.length){
+//       const app = firebase.initializeApp(clientCredentials);
+//   }
+  const app = firebase.initializeApp(clientCredentials);
 
   export default firebase;
+  export const auth  = getAuth(app);
+  export const db = getFirestore(app);

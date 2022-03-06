@@ -12,7 +12,7 @@ const Qr = ({query}) => {
     return(
         <div>
         <Header />
-        {router.isReady && <Timer initialMinutes={router.query.minutes} initialSeconds={router.query.seconds} />}
+        {router.isReady && <Timer initialMinutes={router.query.minutes} initialSeconds={router.query.seconds} isQR={router.query.isQR}/>}
         <Footer />
       </div>
     );
