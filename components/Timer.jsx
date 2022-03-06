@@ -68,7 +68,7 @@ const Timer = (props) => {
   const handleCreateQRCode = async () => {
     // handlePause();
     // countdownInterval();
-    const baseURL = 'http://localhost:3002/qr';
+    const baseURL = 'http://foocus.vercel.app/qr';
     const isQR = true;
     // const strValue = '?minutes=' + minutes + '&seconds=' + seconds + '&isQR=' + isQR;
     const strValue = '?startTime=' + startTime + '&isQR=' + isQR;
