@@ -48,7 +48,6 @@ function Todolist(props) {
 
     add2DB();
     setInputText("");
-    setItems([]);
 
   }
   // function deleteItem(id) {
