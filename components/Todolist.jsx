@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TodoItem from "./TodoItem";
 import {db, auth } from "../firebase/clientApp"
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, getDocs,deleteDoc, doc, collection } from "firebase/firestore";
 
 function Todolist(props) {
   const [inputText, setInputText] = useState("");
@@ -11,13 +11,30 @@ function Todolist(props) {
   const postsCollectionRef = collection(db, `users/${auth.currentUser.uid}/todos`);
 
 
-
   const add2DB = async () => {
     await addDoc(postsCollectionRef, {
       inputText,
       author: { name: auth.currentUser.displayName, id: auth.currentUser.uid },
     });
   };
+  
+  useEffect(() => {
+    console.log('test1');
+    const getItems = async () => {
+      const data = await getDocs(postsCollectionRef);
+      // console.log(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
+      setItems(data.docs.map((doc) => ({...doc.data(), id: doc.id })));
+    };
+    getItems();
+  }, [deleteItem]);
+
+  
+  const deleteItem = async (id) => {
+    console.log("test");
+    const postDoc = doc(db, `users/${auth.currentUser.uid}/todos`, id);
+    await deleteDoc(postDoc);
+  };
+
 
   function handleChange(event) {
     const newValue = event.target.value;
@@ -25,34 +42,33 @@ function Todolist(props) {
   }
 
   function addItem() {
-    setItems((prevItems) => {
-      return [...prevItems, inputText];
-    });
-    setInputText("");
+    // setItems((prevItems) => {
+    //   return [...prevItems, inputText];
+    // });
+
     add2DB();
-
-
+    setInputText("");
+    setItems([]);
 
   }
-  function deleteItem(id) {
-    setItems((preValue) =>
-      preValue.filter((item, idx) => {
-        return idx !== id;
-      })
-    );
-  }
+  // function deleteItem(id) {
+  //   // setItems((preValue) =>
+  //   //   preValue.filter((item, idx) => {
+  //   //     return idx !== id;
+  //   //   })
+  //   // );
+  //   deletePost(id)  
+
+  // }
   function handleToTimer (id){
-    console.log("test");
     return (() => {
         return props.getTitle("yes");
       });
   }
 
-
   function handleShow (){
     setShowElem(!showElem)
   }
-  
 
 
 
@@ -68,7 +84,7 @@ function Todolist(props) {
         </button>
       </div>
       <div>
-        <ul>
+        {/* <ul>
           {items.map((todoItem, todoIdx) => (
             // <li>{todoItem}</li>
             <TodoItem
@@ -79,7 +95,20 @@ function Todolist(props) {
               toTimer={handleToTimer}
             />
           ))}
+        </ul> */}
+        <ul>
+          {items.map((item) => (
+            // <li>{todoItem}</li>
+            <TodoItem
+              key={item.id}
+              id={item.id}
+              item={item.inputText}
+              toDelete={deleteItem}
+              toTimer={handleToTimer}
+            />
+          ))}
         </ul>
+
       </div>
     </div>
   );
