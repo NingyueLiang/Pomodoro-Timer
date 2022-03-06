@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Todolist from "../components/Todolist";
@@ -6,13 +6,13 @@ import Timer from "../components/Timer";
 import { useRouter } from 'next/router'
 
 
-const Qr = (props) => {
+const Qr = ({query}) => {
     const router = useRouter();
 
     return(
         <div>
         <Header />
-        <Timer initialMinute={5} initialSeconds={15} />
+        {router.isReady && <Timer initialMinutes={router.query.minutes} initialSeconds={router.query.seconds} />}
         <Footer />
       </div>
     );
