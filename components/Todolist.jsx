@@ -3,6 +3,7 @@ import TodoItem from "./TodoItem";
 import {db, auth } from "../firebase/clientApp"
 import { addDoc, getDocs,deleteDoc, doc, collection } from "firebase/firestore";
 
+
 function Todolist(props) {
   const [inputText, setInputText] = useState("");
   const [items, setItems] = useState([]);
@@ -22,15 +23,22 @@ function Todolist(props) {
     console.log('test1');
     const getItems = async () => {
       const data = await getDocs(postsCollectionRef);
-      // console.log(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
       setItems(data.docs.map((doc) => ({...doc.data(), id: doc.id })));
     };
+
     getItems();
   }, [deleteItem]);
 
   
   const deleteItem = async (id) => {
     console.log("test");
+    // setItems([]);
+    const getItems = async () => {
+      const data = await getDocs(postsCollectionRef);
+      setItems(data.docs.map((doc) => ({...doc.data(), id: doc.id })));
+    };
+    getItems();
+
     const postDoc = doc(db, `users/${auth.currentUser.uid}/todos`, id);
     await deleteDoc(postDoc);
   };
@@ -42,12 +50,18 @@ function Todolist(props) {
   }
 
   function addItem() {
-    // setItems((prevItems) => {
-    //   return [...prevItems, inputText];
-    // });
 
+    console.log(items);
     add2DB();
+
+    const getItems = async () => {
+      const data = await getDocs(postsCollectionRef);
+      setItems(data.docs.map((doc) => ({...doc.data(), id: doc.id })));
+    };
+    getItems();
+
     setInputText("");
+
 
   }
   // function deleteItem(id) {
@@ -96,10 +110,10 @@ function Todolist(props) {
           ))}
         </ul> */}
         <ul>
-          {items.map((item) => (
+          {items.map((item, idx) => (
             // <li>{todoItem}</li>
             <TodoItem
-              key={item.id}
+              key={idx}
               id={item.id}
               item={item.inputText}
               toDelete={deleteItem}
