@@ -50,7 +50,7 @@ function Todolist(props) {
   }
 
   function addItem() {
-
+    if(inputText !== ""){
     console.log(items);
     add2DB();
 
@@ -61,7 +61,7 @@ function Todolist(props) {
     getItems();
 
     setInputText("");
-
+  }
 
   }
   // function deleteItem(id) {
