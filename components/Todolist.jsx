@@ -20,7 +20,7 @@ function Todolist(props) {
   };
   
   useEffect(() => {
-    console.log('test1');
+    // console.log('test1');
     const getItems = async () => {
       const data = await getDocs(postsCollectionRef);
       setItems(data.docs.map((doc) => ({...doc.data(), id: doc.id })));
@@ -31,7 +31,7 @@ function Todolist(props) {
 
   
   const deleteItem = async (id) => {
-    console.log("test");
+    // console.log("test");
     // setItems([]);
     const getItems = async () => {
       const data = await getDocs(postsCollectionRef);
@@ -51,7 +51,7 @@ function Todolist(props) {
 
   function addItem() {
     if(inputText !== ""){
-    console.log(items);
+    // console.log(items);
     add2DB();
 
     const getItems = async () => {

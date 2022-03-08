@@ -14,7 +14,7 @@ const Timer = (props) => {
   // const initialMinutes = parseInt(initialTimestamp / 60);
   // const initialSeconds = Math.round(initialTimestamp % 60);
 
-  console.log(initialMinutes, initialSeconds);
+  // console.log(initialMinutes, initialSeconds);
 
   const [minutes, setMinutes] = useState(initialMinutes);
   const [seconds, setSeconds] = useState(initialSeconds);
@@ -37,7 +37,7 @@ const Timer = (props) => {
             clearInterval(countdownInterval);
           }
           else {
-            console.log('test', props.isQR, seconds, minutes)
+            // console.log('test', props.isQR, seconds, minutes)
             setMinutes(minutes - 1);
             setSeconds(59);
           }
@@ -73,7 +73,7 @@ const Timer = (props) => {
     // const strValue = '?minutes=' + minutes + '&seconds=' + seconds + '&isQR=' + isQR;
     const strValue = '?startTime=' + startTime + '&isQR=' + isQR;
 
-    console.log(baseURL + strValue);
+    // console.log(baseURL + strValue);
     setQRValue(baseURL + strValue);
 
     setQRVisible(true);
