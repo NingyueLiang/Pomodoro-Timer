@@ -73,7 +73,7 @@ const Timer = (props) => {
     // const strValue = '?minutes=' + minutes + '&seconds=' + seconds + '&isQR=' + isQR;
     const strValue = '?startTime=' + startTime + '&isQR=' + isQR;
 
-    // console.log(baseURL + strValue);
+    console.log(baseURL + strValue);
     setQRValue(baseURL + strValue);
 
     setQRVisible(true);
