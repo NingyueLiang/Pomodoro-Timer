@@ -1,13 +1,20 @@
 import React, { useState } from "react";
 
 function TodoItem(props) {
+
+  function handleToTimer(){
+    // console.log(props.id);
+
+    const url = 'http://localhost:3000/timers?itemId='+props.id;
+    console.log(url)
+    window.open(url, '_blank');
+  }
+
   return (
     <li>
       {props.item} 
-      {/* <button onClick={() => {
-          return props.toShow(props.id);
-        }}>Timer
-      </button> */}
+      <button onClick={handleToTimer}>Timer
+      </button>
       <button
         onClick={() => {
           return props.toDelete(props.id);

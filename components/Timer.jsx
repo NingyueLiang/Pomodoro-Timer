@@ -25,6 +25,7 @@ const Timer = (props) => {
   const [startTime, setStartTime] = useState(0);
 
   const router = useRouter();
+  console.log(router.query.itemId)
 
   useEffect(() => {
     const countdownInterval = setInterval(() => {
