@@ -1,7 +1,9 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import QRCode from "react-qr-code";
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
+import { db, auth } from "../firebase/clientApp";
+import { connectFirestoreEmulator, doc, onSnapshot, updateDoc } from "firebase/firestore";
 
 const Timer = (props) => {
   const { initialMinutes = 25, initialSeconds = 0 } = props;
@@ -26,6 +28,27 @@ const Timer = (props) => {
 
   const router = useRouter();
   console.log(router.query.itemId)
+
+
+  // test mode
+  const itemId = 'BfT3y04qrDPsWhIY5y3H';
+
+  const collection_dir = `users/${auth.currentUser.uid}/todos`;
+  const cur_doc = doc(db, collection_dir, "BfT3y04qrDPsWhIY5y3H");
+  const unsub = onSnapshot(doc(db, collection_dir, "BfT3y04qrDPsWhIY5y3H"), (doc) => {
+    console.log("Current data: ", doc.data().isActive);
+    setIsCountingDown(doc.data().isActive);
+    console.log('execute!!!')
+  });
+
+  const update2DB = async (isActive) => {
+    await updateDoc(cur_doc, { "isActive": isActive });
+  };
+  // update2DB(false);
+
+
+
+
 
   useEffect(() => {
     const countdownInterval = setInterval(() => {
@@ -82,25 +105,25 @@ const Timer = (props) => {
 
   const toggleShowQR = () => {
     setQRVisible(!qrValue);
-    if (isCountingDown){
-    let initialTimestamp = 25 * 60;
-    const prevStartTime = startTime;
-    // const mills = 1646593098423 - prevStartTime;
-    const mills = Date.now() - prevStartTime;
+    if (isCountingDown) {
+      let initialTimestamp = 25 * 60;
+      const prevStartTime = startTime;
+      // const mills = 1646593098423 - prevStartTime;
+      const mills = Date.now() - prevStartTime;
 
-    // console.log(Date.now());
-    const diff = mills / 1000;
-    // const diff = 40;
-    initialTimestamp = initialTimestamp - diff;
-    const resetlMinutes = parseInt(initialTimestamp / 60);
-    const resetSeconds = Math.round(initialTimestamp % 60);
-    setMinutes(resetlMinutes);
-    setSeconds(resetSeconds);
-  }
+      // console.log(Date.now());
+      const diff = mills / 1000;
+      // const diff = 40;
+      initialTimestamp = initialTimestamp - diff;
+      const resetlMinutes = parseInt(initialTimestamp / 60);
+      const resetSeconds = Math.round(initialTimestamp % 60);
+      setMinutes(resetlMinutes);
+      setSeconds(resetSeconds);
+    }
   }
 
   return (
-<div className="timer">
+    <div className="timer">
       {qrVisible &&
         <>
           <QRCode value={qrValue} />

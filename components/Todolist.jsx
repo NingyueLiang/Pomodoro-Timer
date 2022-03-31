@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import TodoItem from "./TodoItem";
 import {db, auth } from "../firebase/clientApp"
-import { addDoc, getDocs,deleteDoc, doc, collection } from "firebase/firestore";
+import { addDoc, getDocs,deleteDoc, doc, collection, onSnapshot } from "firebase/firestore";
 
 
 function Todolist(props) {
@@ -10,6 +10,15 @@ function Todolist(props) {
   const [showElem, setShowElem] = useState(true);
   // const postsCollectionRef = collection(db, "posts");
   const postsCollectionRef = collection(db, `users/${auth.currentUser.uid}/todos`);
+
+//   const collection_dir = `users/${auth.currentUser.uid}/todos`;
+//   const unsub = onSnapshot(doc(db, collection_dir, "BfT3y04qrDPsWhIY5y3H"), (doc) => {
+//     console.log("Current data: ", doc.data());
+//     console.log('execute!!!')
+// });
+
+
+
 
 
   const add2DB = async () => {
