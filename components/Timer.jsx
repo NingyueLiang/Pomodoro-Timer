@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { db, auth } from "../firebase/clientApp";
 import { connectFirestoreEmulator, doc, onSnapshot, updateDoc } from "firebase/firestore";
 
+console.log('update page?')
 const Timer = (props) => {
   const { initialMinutes = 25, initialSeconds = 0 } = props;
   // const initialTimestamp = 25 * 60;
@@ -29,29 +30,46 @@ const Timer = (props) => {
   const router = useRouter();
 
 
-  // test mode
+  // // test mode
   const itemId = 'BfT3y04qrDPsWhIY5y3H';
-
-  const collection_dir = `users/${auth.currentUser.uid}/todos`;
+  const uid = 'ycENTtYaa6c1SkoHcX4nFCM26793';
+  const collection_dir = `users/${uid}/todos`;
   const cur_doc = doc(db, collection_dir, "BfT3y04qrDPsWhIY5y3H");
   const unsub = onSnapshot(doc(db, collection_dir, "BfT3y04qrDPsWhIY5y3H"), (doc) => {
-    console.log("Current data: ", doc.data().isActive);
     setIsCountingDown(doc.data().isActive);
-    console.log('execute!!!')
+    if (doc.data().isReset){
+      console.log('tset', doc.data().isReset)
+      setMinutes(25);
+      setSeconds(0);
+
+      updateReset(false);
+    }
+
   });
 
-  const update2DB = async (isActive) => {
+
+
+  const updateActive = async (isActive) => {
     await updateDoc(cur_doc, { "isActive": isActive });
   };
-  // update2DB(false);
+
+  const updateReset = async (isReset) => {
+    await updateDoc(cur_doc, { "isReset": isReset });
+  };
 
 
+  
+  // updateActive(false);
+  // if (QRstate) {
+  //   setIsCountingDown(true);
+  //   QRstate = false;
+  // }
 
 
 
   useEffect(() => {
     const countdownInterval = setInterval(() => {
-      if (props.isQR || isCountingDown) {
+      if (isCountingDown) {
         if (seconds > 0) {
           setSeconds(seconds - 1);
         }
@@ -60,7 +78,6 @@ const Timer = (props) => {
             clearInterval(countdownInterval);
           }
           else {
-            // console.log('test', props.isQR, seconds, minutes)
             setMinutes(minutes - 1);
             setSeconds(59);
           }
@@ -77,15 +94,19 @@ const Timer = (props) => {
     // const startTime = Date.now();
     setStartTime(Date.now());
     setIsCountingDown(true);
+    updateActive(true);
   }
 
   const handlePause = () => {
     setIsCountingDown(false);
+    updateActive(false);
+
   }
 
   const handleReset = () => {
-    setMinutes(initialMinutes);
-    setSeconds(initialSeconds);
+    setMinutes(25);
+    setSeconds(0);
+    updateReset(true);
   }
 
   const handleCreateQRCode = async () => {
@@ -96,7 +117,7 @@ const Timer = (props) => {
     // const strValue = '?minutes=' + minutes + '&seconds=' + seconds + '&isQR=' + isQR;
     const strValue = '?startTime=' + startTime + '&isQR=' + isQR;
 
-    // console.log(baseURL + strValue);
+    console.log(baseURL + strValue);
     setQRValue(baseURL + strValue);
 
     setQRVisible(true);
