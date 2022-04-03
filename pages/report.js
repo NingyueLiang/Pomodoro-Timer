@@ -4,7 +4,7 @@ import Footer from "../components/Footer";
 import Todolist from "../components/Todolist";
 import Timer from "../components/Timer";
 import Auth from "../components/Auth";
-
+import Chart from "../components/Chart";
 
 import { useAuthState } from "react-firebase-hooks/auth";
 import firebase from "../firebase/clientApp";
@@ -26,9 +26,7 @@ export default function Home() {
       {user && 
         <>
           <Header />
-          <h1>{curTodo}</h1>
-          <Todolist getTitle={handleTimerTitle} />
-          <Timer/>
+          <Chart />
           
           <Footer />
         </>}

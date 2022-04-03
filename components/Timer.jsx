@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import QRCode from "react-qr-code";
 import { useRouter } from 'next/router'
 
+
 const Timer = (props) => {
   const { initialMinutes = 25, initialSeconds = 0 } = props;
   // const initialTimestamp = 25 * 60;
@@ -103,6 +104,7 @@ const Timer = (props) => {
       {qrVisible &&
         <>
           <QRCode value={qrValue} />
+          <Chart />
           <button onClick={toggleShowQR}>Show Timer</button>
         </>
       }
