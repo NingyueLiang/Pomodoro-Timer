@@ -5,8 +5,8 @@ function TodoItem(props) {
   function handleToTimer(){
     // console.log(props.id);
 
-    const url = 'http://localhost:3000/timers?itemId='+props.id;
-    console.log(url)
+    const url = 'https://foocus.vercel.app//timers?itemId='+props.id;
+    // console.log(url)
     window.open(url, '_blank');
   }
 

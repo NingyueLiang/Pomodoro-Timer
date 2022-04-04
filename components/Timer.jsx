@@ -27,7 +27,7 @@ const Timer = (props) => {
   const [startTime, setStartTime] = useState(0);
 
   const router = useRouter();
-  console.log(router.query.itemId)
+  // console.log(router.query.itemId)
 
 
   // // test mode
@@ -38,7 +38,7 @@ const Timer = (props) => {
   const unsub = onSnapshot(doc(db, collection_dir, "BfT3y04qrDPsWhIY5y3H"), (doc) => {
     setIsCountingDown(doc.data().isActive);
     if (doc.data().isReset){
-      console.log('tset', doc.data().isReset)
+      // console.log('tset', doc.data().isReset)
       setMinutes(25);
       setSeconds(0);
 
@@ -147,7 +147,7 @@ const Timer = (props) => {
       {qrVisible &&
         <>
           <QRCode value={qrValue} />
-          <Chart />
+          {/* <Chart /> */}
           <button onClick={toggleShowQR}>Show Timer</button>
         </>
       }
