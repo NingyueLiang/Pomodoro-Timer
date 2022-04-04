@@ -5,7 +5,6 @@ import { useRouter } from 'next/router';
 import { db, auth } from "../firebase/clientApp";
 import { connectFirestoreEmulator, doc, onSnapshot, updateDoc } from "firebase/firestore";
 
-console.log('update page?')
 const Timer = (props) => {
   const { initialMinutes = 25, initialSeconds = 0 } = props;
   // const initialTimestamp = 25 * 60;
@@ -148,6 +147,7 @@ const Timer = (props) => {
       {qrVisible &&
         <>
           <QRCode value={qrValue} />
+          <Chart />
           <button onClick={toggleShowQR}>Show Timer</button>
         </>
       }
