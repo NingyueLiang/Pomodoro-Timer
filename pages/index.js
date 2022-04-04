@@ -27,7 +27,7 @@ export default function Home() {
           <Header />
           <h1>{curTodo}</h1>
           <Todolist getTitle={handleTimerTitle} />
-          <Timer/>
+          {/* <Timer/> */}
           <Footer />
         </>}
     </div>
