@@ -9,7 +9,7 @@ function Header() {
 
     function showReport(){
         const url = 'http://localhost:3000/report';
-        window.open(url, '_blank');
+        window.open(url, '_self');
     }
 
     return (

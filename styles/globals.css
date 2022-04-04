@@ -173,7 +173,37 @@ li {
   margin-left: 11.8%;
   float:none;
 
+}
 
+.chart { 
+  text-align: center;
+  vertical-align: 50%;
 
+  margin-top: 5%;
+}
+
+.chart h1 {
+  
+  color:#50a3a2;
+  
+}
+
+#pie{
+  position: relative;
+  left: 36rem;
+}
+.chart button {
+  display: inline;
+  background-color: #50a3a2;
+  border: 5px;
+  border-radius: 10px;
+  box-shadow: 5px;
+ 
+  text-align: center;
+  color: #fff;
+  font-weight: bold;
+  font-size: 25px;
+
+  float:none;
 
 }
