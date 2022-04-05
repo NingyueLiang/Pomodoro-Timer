@@ -51,8 +51,7 @@ function Todolist(props) {
 
     const postDoc = doc(db, `users/${auth.currentUser.uid}/todos`, id);
     await deleteDoc(postDoc);
-    const url = 'https://foocus.vercel.app';
-    window.open(url, '_self');
+    
   };
 
 

@@ -107,7 +107,7 @@ function Chart(props) {
 
   return (
     <div className="chart">
-      <h1>Time Spent on Each Task:</h1>
+      <h1>Time Spent(Min) on Each Task:</h1>
       <PieChart width={600} height={600} id = "pie">
         <Pie
           activeIndex={activeIndex}
