@@ -4,6 +4,8 @@ import firebase from "../firebase/clientApp";
 
 function Header() {
     function signOutUser(){
+        const url = 'https://foocus.vercel.app';
+        window.open(url, '_self');
         firebase.auth().signOut();
     }
 
