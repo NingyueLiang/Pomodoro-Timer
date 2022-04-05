@@ -101,7 +101,7 @@ function Chart(props) {
     [setActiveIndex]
   );
   function back_main(){
-    const url = 'http://localhost:3000';
+    const url = 'https://foocus.vercel.app';
     window.open(url, '_self');
   }
 

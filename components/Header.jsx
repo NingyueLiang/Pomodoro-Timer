@@ -8,7 +8,7 @@ function Header() {
     }
 
     function showReport(){
-        const url = 'http://localhost:3000/report';
+        const url = 'https://foocus.vercel.app/report';
         window.open(url, '_self');
     }
 
