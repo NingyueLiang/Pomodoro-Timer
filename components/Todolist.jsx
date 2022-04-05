@@ -6,6 +6,8 @@ import { addDoc, getDocs,deleteDoc, doc, collection, onSnapshot } from "firebase
 
 function Todolist(props) {
   const [inputText, setInputText] = useState("");
+  const [totalTime, setTotalTime] = useState(100);
+  const [timeSet, setTimeSet] = useState([]);
   const [items, setItems] = useState([]);
   const [showElem, setShowElem] = useState(true);
   // const postsCollectionRef = collection(db, "posts");
@@ -23,7 +25,7 @@ function Todolist(props) {
 
   const add2DB = async () => {
     await addDoc(postsCollectionRef, {
-      inputText,
+      inputText, totalTime, timeSet,
       author: { name: auth.currentUser.displayName, id: auth.currentUser.uid },
     });
   };
@@ -40,8 +42,7 @@ function Todolist(props) {
 
   
   const deleteItem = async (id) => {
-    // console.log("test");
-    // setItems([]);
+    
     const getItems = async () => {
       const data = await getDocs(postsCollectionRef);
       setItems(data.docs.map((doc) => ({...doc.data(), id: doc.id })));
@@ -50,17 +51,21 @@ function Todolist(props) {
 
     const postDoc = doc(db, `users/${auth.currentUser.uid}/todos`, id);
     await deleteDoc(postDoc);
+    const url = 'https://foocus.vercel.app';
+    window.open(url, '_self');
   };
 
 
   function handleChange(event) {
     const newValue = event.target.value;
     setInputText(newValue);
+    setTotalTime(Math.floor(Math.random() * 300+100));
   }
 
   function addItem() {
     if(inputText !== ""){
     // console.log(items);
+
     add2DB();
 
     const getItems = async () => {

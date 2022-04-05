@@ -130,7 +130,10 @@ button {
   border-radius: 5px;
   background-color: #50a3a2;
   float:right;
+  cursor: pointer;
 }
+
+
 button span {
   background: #f1f5f8;
   display: block;
@@ -172,14 +175,14 @@ li {
   font-size: 50px;
   margin-left: 11.8%;
   float:none;
-
+  cursor: pointer;
 }
 
 .chart { 
   text-align: center;
-  vertical-align: 50%;
-
-  margin-top: 5%;
+  width: 70%;
+  margin: auto;
+  margin-top: 2%;
 }
 
 .chart h1 {
@@ -189,8 +192,8 @@ li {
 }
 
 #pie{
-  position: relative;
-  left: 95%;
+ position: relative;
+ left: 50%;
 }
 .chart button {
   display: inline;
@@ -203,7 +206,11 @@ li {
   color: #fff;
   font-weight: bold;
   font-size: 25px;
-
+  cursor: pointer;
   float:none;
 
+}
+
+button:hover{
+  background-color: #a9d4d3;
 }

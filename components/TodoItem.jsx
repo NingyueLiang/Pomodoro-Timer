@@ -17,7 +17,9 @@ function TodoItem(props) {
       </button>
       <button
         onClick={() => {
+          
           return props.toDelete(props.id);
+          
         }}
       >
         delete
