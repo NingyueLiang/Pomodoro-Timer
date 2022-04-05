@@ -1,12 +1,9 @@
 import React, { useCallback, useState } from "react";
 import { PieChart, Pie, Sector } from "recharts";
+import {db, auth } from "../firebase/clientApp"
+import { addDoc, getDocs,deleteDoc, doc, collection } from "firebase/firestore";
 
-const data = [
-  { name: "Group A", value: 400 },
-  { name: "Group B", value: 300 },
-  { name: "Group C", value: 300 },
-  { name: "Group D", value: 200 }
-];
+
 
 const renderActiveShape = (props) => {
   const RADIAN = Math.PI / 180;
@@ -83,6 +80,19 @@ const renderActiveShape = (props) => {
 
 
 function Chart(props) {
+  const [tasks,setTasks] = useState([]);
+  const postsCollectionRef = collection(db, `users/${auth.currentUser.uid}/todos`);
+  const getItems = async () => {
+    const data = await getDocs(postsCollectionRef);
+    setTasks(data.docs.map((doc) => ({...doc.data()})));
+    
+  };
+ 
+  getItems();
+  const data = tasks.map(({inputText, totalTime}) => ({name: inputText, value: totalTime}))
+
+  
+
   const [activeIndex, setActiveIndex] = useState(0);
   const onPieEnter = useCallback(
     (_, index) => {
