@@ -57,7 +57,7 @@ const Timer = (props) => {
     await updateDoc(cur_doc, { "isReset": isReset });
   };
 
-
+  
   
   // updateActive(false);
   // if (QRstate) {
@@ -151,7 +151,7 @@ const Timer = (props) => {
           <button onClick={toggleShowQR}>Show Timer</button>
         </>
       }
-      {!qrVisible &&
+      {!qrVisible && isCountingDown &&
         <>
           <h1>
             {" "}
@@ -163,6 +163,17 @@ const Timer = (props) => {
 
           <br /><br /><br />
           <button onClick={handleCreateQRCode}>Create QR</button>
+        </>
+      }
+       {!qrVisible && !isCountingDown &&
+        <>
+          <h1>
+            {" "}
+            {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
+          </h1>
+          <button onClick={handleStart}>Start</button>
+          <button onClick={handlePause}>Stop</button>
+          <button onClick={handleReset}>Reset</button>
         </>
       }
     </div>
