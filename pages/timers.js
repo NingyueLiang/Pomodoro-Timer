@@ -27,7 +27,7 @@ const Timers = ({ query }) => {
   const [user, loading, error] = useAuthState(firebase.auth());
   const [curTodo, setCurTodo] = useState();
   // console.log(user);
-  console.log(router.query.timerId, router.query.uid)
+  // console.log(router.query.timerId, router.query.uid)
 
   function handleTimerTitle(title) {
     setCurTodo(title);
