@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import QRCode from "react-qr-code";
 import { useRouter } from 'next/router';
 import { db, auth } from "../firebase/clientApp";
-import { connectFirestoreEmulator, doc, onSnapshot, updateDoc,getDocs,getDoc, FieldValue } from "firebase/firestore";
+import { connectFirestoreEmulator, doc, onSnapshot, updateDoc,getDocs,getDoc, arrayUnion } from "firebase/firestore";
 import { Firestore } from "firebase/firestore";
 const Timer = (props) => {
   const { initialMinutes = 25, initialSeconds = 0 } = props;
@@ -67,24 +67,29 @@ const Timer = (props) => {
     return [min, sec];
   }
 
-
+  console.log("window onload");
   checkIsActive().then(data=>{
     console.log('check:', data);
     let isActive = data.isActive;
+    console.log(isActive);
+
     if (isActive){
-      // let leftTime = data.leftTime;
-      // lastStartTime = data.timeSet[data.timeSet.length-1];
-      // console.log(last)
-
-
+      let leftTime = data.leftTime;
+      let lastStartTime = data.timeSet[data.timeSet.length-1];
+      let timeDiff = (Date.now() - lastStartTime) / 1000
+      let leftSec = leftTime - timeDiff;
+      let timeArray = second2TimeList(leftTime); //timeArray: [min, sec]
+      setMinutes(timeArray[0]);
+      setSeconds(timeArray[1]);
     }else{
       let leftTime = data.leftTime;
       let timeArray = second2TimeList(leftTime); //timeArray: [min, sec]
       setMinutes(timeArray[0]);
       setSeconds(timeArray[1]);
-    }
+  }
+});
 
-  })
+  
 
 
 
@@ -100,14 +105,15 @@ const Timer = (props) => {
   const updateTimeSet = async () => {
     // const data = await getDoc(cur_doc);
     // await updateDoc(cur_doc, { "isReset": isReset });
-    console.log('isRun');
+    
+    await updateDoc(cur_doc, {
+      timeSet: arrayUnion(Date.now())
+    })
+  };
 
-    const unionRes = await cur_doc.update({
-      timeSet: FieldValue.arrayUnion('greater_virginia')
-    });
-
-    };
-
+  const updateLeftTime = async (leftTime) => {
+    await updateDoc(cur_doc, { "leftTime": leftTime });
+  };
   
   
 
@@ -137,21 +143,33 @@ const Timer = (props) => {
   const handleStart = () => {
     // var myDate = new Date();
     // const startTime = Date.now();
-    setStartTime(Date.now());
-    setIsCountingDown(true);
-    updateActive(true);
-    console.log('here1');
-    updateTimeSet();
-
+    if (!isCountingDown){
+      setStartTime(Date.now());
+      setIsCountingDown(true);
+      updateActive(true);
+      updateTimeSet();
+    }
   }
 
   const handlePause = () => {
-    setIsCountingDown(false);
-    updateActive(false);
+    if (isCountingDown){
+      setIsCountingDown(false);
+      updateActive(false);
+      updateTimeSet();
 
+      // set leftTime
+      let leftTime = minutes * 60 + seconds
+      updateLeftTime(leftTime);
+    }
   }
 
   const handleReset = () => {
+    if (isCountingDown){
+      updateTimeSet()
+    }
+    updateActive(false);
+    updateLeftTime(25 * 60);
+
     setMinutes(25);
     setSeconds(0);
     updateReset(true);
