@@ -67,28 +67,31 @@ const Timer = (props) => {
     return [min, sec];
   }
 
-  console.log("window onload");
-  checkIsActive().then(data=>{
-    console.log('check:', data);
-    let isActive = data.isActive;
-    console.log(isActive);
+  useEffect(() => {
+    // code to run on component mount
+    console.log("window onload");
+    checkIsActive().then(data=>{
+      console.log('check:', data);
+      let isActive = data.isActive;
+      console.log(isActive);
 
-    if (isActive){
-      let leftTime = data.leftTime;
-      let lastStartTime = data.timeSet[data.timeSet.length-1];
-      let timeDiff = (Date.now() - lastStartTime) / 1000
-      let leftSec = leftTime - timeDiff;
-      let timeArray = second2TimeList(leftTime); //timeArray: [min, sec]
-      setMinutes(timeArray[0]);
-      setSeconds(timeArray[1]);
-    }else{
-      let leftTime = data.leftTime;
-      let timeArray = second2TimeList(leftTime); //timeArray: [min, sec]
-      setMinutes(timeArray[0]);
-      setSeconds(timeArray[1]);
-  }
-});
+      if (isActive){
+        let leftTime = data.leftTime;
+        let lastStartTime = data.timeSet[data.timeSet.length-1];
+        let timeDiff = (Date.now() - lastStartTime) / 1000
+        let leftSec = leftTime - timeDiff;
+        let timeArray = second2TimeList(leftTime); //timeArray: [min, sec]
+        setMinutes(timeArray[0]);
+        setSeconds(timeArray[1]);
+      }else{
+        let leftTime = data.leftTime;
+        let timeArray = second2TimeList(leftTime); //timeArray: [min, sec]
+        setMinutes(timeArray[0]);
+        setSeconds(timeArray[1]);
+    }
+  });
 
+  }, [])
   
 
 
