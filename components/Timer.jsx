@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 import QRCode from "react-qr-code";
 import { useRouter } from 'next/router';
 import { db, auth } from "../firebase/clientApp";
-import { connectFirestoreEmulator, doc, onSnapshot, updateDoc,getDocs,getDoc, FieldValue } from "firebase/firestore";
-import { Firestore } from "firebase/firestore";
+import { connectFirestoreEmulator, doc, onSnapshot, updateDoc, getDocs, getDoc, arrayUnion } from "firebase/firestore";
+
 const Timer = (props) => {
   const { initialMinutes = 25, initialSeconds = 0 } = props;
 
@@ -28,7 +28,7 @@ const Timer = (props) => {
   const cur_doc = doc(db, collection_dir, itemId);
   const unsub = onSnapshot(doc(db, collection_dir, itemId), (doc) => {
     setIsCountingDown(doc.data().isActive);
-    if (doc.data().isReset){
+    if (doc.data().isReset) {
       // console.log('tset', doc.data().isReset)
       setMinutes(25);
       setSeconds(0);
@@ -61,23 +61,23 @@ const Timer = (props) => {
   };
 
 
-  function second2TimeList (timeStamp) {
+  function second2TimeList(timeStamp) {
     const min = parseInt(timeStamp / 60);
     const sec = Math.round(timeStamp % 60);
     return [min, sec];
   }
 
 
-  checkIsActive().then(data=>{
+  checkIsActive().then(data => {
     console.log('check:', data);
     let isActive = data.isActive;
-    if (isActive){
+    if (isActive) {
       // let leftTime = data.leftTime;
       // lastStartTime = data.timeSet[data.timeSet.length-1];
       // console.log(last)
 
 
-    }else{
+    } else {
       let leftTime = data.leftTime;
       let timeArray = second2TimeList(leftTime); //timeArray: [min, sec]
       setMinutes(timeArray[0]);
@@ -98,18 +98,15 @@ const Timer = (props) => {
   };
 
   const updateTimeSet = async () => {
-    // const data = await getDoc(cur_doc);
-    // await updateDoc(cur_doc, { "isReset": isReset });
-    console.log('isRun');
 
-    const unionRes = await cur_doc.update({
-      timeSet: FieldValue.arrayUnion('greater_virginia')
+    await updateDoc(cur_doc, {
+      timeSet: arrayUnion(Date.now())
     });
 
-    };
+  };
 
-  
-  
+
+
 
 
   useEffect(() => {
@@ -135,13 +132,12 @@ const Timer = (props) => {
   });
 
   const handleStart = () => {
-    // var myDate = new Date();
-    // const startTime = Date.now();
-    setStartTime(Date.now());
-    setIsCountingDown(true);
-    updateActive(true);
-    console.log('here1');
-    updateTimeSet();
+    if (!isCountingDown) {
+      setStartTime(Date.now());
+      setIsCountingDown(true);
+      updateActive(true);
+      updateTimeSet();
+    }
 
   }
 
@@ -160,7 +156,7 @@ const Timer = (props) => {
   const handleCreateQRCode = async () => {
     // handlePause();
     // countdownInterval();
-    const url = 'https://foocus.vercel.app/timers?timerId='+props.itemId+'&uid='+props.uid;
+    const url = 'https://foocus.vercel.app/timers?timerId=' + props.itemId + '&uid=' + props.uid;
     // const url = 'http://localhost:3000/timers?timerId='+props.itemId+'&uid='+props.uid;
     console.log(url);
     setQRValue(url);
