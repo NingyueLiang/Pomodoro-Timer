@@ -31,11 +31,12 @@ const Timer = (props) => {
 
 
   // // test mode
-  const itemId = 'BfT3y04qrDPsWhIY5y3H';
-  const uid = 'ycENTtYaa6c1SkoHcX4nFCM26793';
+  const itemId = props.itemId;
+  const uid = props.uid;
+  // console.log(uid, itemId);
   const collection_dir = `users/${uid}/todos`;
-  const cur_doc = doc(db, collection_dir, "BfT3y04qrDPsWhIY5y3H");
-  const unsub = onSnapshot(doc(db, collection_dir, "BfT3y04qrDPsWhIY5y3H"), (doc) => {
+  const cur_doc = doc(db, collection_dir, itemId);
+  const unsub = onSnapshot(doc(db, collection_dir, itemId), (doc) => {
     setIsCountingDown(doc.data().isActive);
     if (doc.data().isReset){
       // console.log('tset', doc.data().isReset)
@@ -112,13 +113,10 @@ const Timer = (props) => {
   const handleCreateQRCode = async () => {
     // handlePause();
     // countdownInterval();
-    const baseURL = 'http://foocus.vercel.app/qr';
-    const isQR = true;
-    // const strValue = '?minutes=' + minutes + '&seconds=' + seconds + '&isQR=' + isQR;
-    const strValue = '?startTime=' + startTime + '&isQR=' + isQR;
-
-    console.log(baseURL + strValue);
-    setQRValue(baseURL + strValue);
+    // const url = 'https://foocus.vercel.app//timers?timerId='+props.itemId;
+    const url = 'http://localhost:3000/timers?timerId='+props.itemId+'&uid='+props.uid;
+    console.log(url);
+    setQRValue(url);
 
     setQRVisible(true);
   }
@@ -151,7 +149,7 @@ const Timer = (props) => {
           <button onClick={toggleShowQR}>Show Timer</button>
         </>
       }
-      {!qrVisible && isCountingDown &&
+      {!qrVisible &&
         <>
           <h1>
             {" "}
@@ -163,17 +161,6 @@ const Timer = (props) => {
 
           <br /><br /><br />
           <button onClick={handleCreateQRCode}>Create QR</button>
-        </>
-      }
-       {!qrVisible && !isCountingDown &&
-        <>
-          <h1>
-            {" "}
-            {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
-          </h1>
-          <button onClick={handleStart}>Start</button>
-          <button onClick={handlePause}>Stop</button>
-          <button onClick={handleReset}>Reset</button>
         </>
       }
     </div>

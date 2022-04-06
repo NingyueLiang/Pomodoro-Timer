@@ -27,6 +27,9 @@ function Todolist(props) {
     await addDoc(postsCollectionRef, {
       inputText, totalTime, timeSet,
       author: { name: auth.currentUser.displayName, id: auth.currentUser.uid },
+      isActive: false,
+      isReset: false,
+      leftTime: 25,
     });
   };
   
@@ -127,7 +130,8 @@ function Todolist(props) {
             // <li>{todoItem}</li>
             <TodoItem
               key={idx}
-              id={item.id}
+              itemId={item.id}
+              uid={auth.currentUser.uid}
               item={item.inputText}
               toDelete={deleteItem}
               toTimer={handleToTimer}

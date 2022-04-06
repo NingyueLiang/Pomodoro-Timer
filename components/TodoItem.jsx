@@ -5,7 +5,8 @@ function TodoItem(props) {
   function handleToTimer(){
     // console.log(props.id);
 
-    const url = 'https://foocus.vercel.app//timers?itemId='+props.id;
+    // const url = 'https://foocus.vercel.app//timers?timerId='+props.id;
+    const url = 'http://localhost:3000/timers?timerId='+props.itemId+'&uid='+props.uid;
     // console.log(url)
     window.open(url, '_blank');
   }
@@ -18,7 +19,7 @@ function TodoItem(props) {
       <button
         onClick={() => {
           
-          return props.toDelete(props.id);
+          return props.toDelete(props.itemId);
           
         }}
       >
