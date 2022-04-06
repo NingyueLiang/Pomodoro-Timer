@@ -28,12 +28,12 @@ const Timer = (props) => {
   const cur_doc = doc(db, collection_dir, itemId);
   const unsub = onSnapshot(doc(db, collection_dir, itemId), (doc) => {
     setIsCountingDown(doc.data().isActive);
-    if (doc.data().isReset){
-      // console.log('tset', doc.data().isReset)
+    if (doc.data().resetState&&!doc.data().isActive){
+      console.log('test1', doc.data().isReset)
       setMinutes(25);
       setSeconds(0);
 
-      updateReset(false);
+      // updateReset(false);
     }
 
   });
@@ -80,7 +80,7 @@ const Timer = (props) => {
         let lastStartTime = data.timeSet[data.timeSet.length-1];
         let timeDiff = (Date.now() - lastStartTime) / 1000
         let leftSec = leftTime - timeDiff;
-        let timeArray = second2TimeList(leftTime); //timeArray: [min, sec]
+        let timeArray = second2TimeList(leftSec); //timeArray: [min, sec]
         setMinutes(timeArray[0]);
         setSeconds(timeArray[1]);
       }else{
@@ -101,8 +101,12 @@ const Timer = (props) => {
     await updateDoc(cur_doc, { "isActive": isActive });
   };
 
+  // const updateReset = async (isReset) => {
+  //   await updateDoc(cur_doc, { "isReset": isReset });
+  // };
+
   const updateReset = async (isReset) => {
-    await updateDoc(cur_doc, { "isReset": isReset });
+    await updateDoc(cur_doc, { "resetState": isReset });
   };
 
   const updateTimeSet = async () => {
@@ -157,6 +161,7 @@ const Timer = (props) => {
   const handlePause = () => {
     if (isCountingDown){
       setIsCountingDown(false);
+      updateReset(false);
       updateActive(false);
       updateTimeSet();
 
@@ -176,6 +181,7 @@ const Timer = (props) => {
     setMinutes(25);
     setSeconds(0);
     updateReset(true);
+    // updateReset1(true);
   }
 
   const handleCreateQRCode = async () => {

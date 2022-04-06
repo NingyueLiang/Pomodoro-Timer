@@ -28,7 +28,7 @@ function Todolist(props) {
       inputText, totalTime, timeSet,
       author: { name: auth.currentUser.displayName, id: auth.currentUser.uid },
       isActive: false,
-      isReset: false,
+      resetState: false,
       leftTime: 25*60,
     });
   };
