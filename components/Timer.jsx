@@ -3,20 +3,11 @@ import { useState, useEffect } from "react";
 import QRCode from "react-qr-code";
 import { useRouter } from 'next/router';
 import { db, auth } from "../firebase/clientApp";
-import { connectFirestoreEmulator, doc, onSnapshot, updateDoc } from "firebase/firestore";
-
+import { connectFirestoreEmulator, doc, onSnapshot, updateDoc,getDocs,getDoc, FieldValue } from "firebase/firestore";
+import { Firestore } from "firebase/firestore";
 const Timer = (props) => {
   const { initialMinutes = 25, initialSeconds = 0 } = props;
-  // const initialTimestamp = 25 * 60;
-  // const {prevStartTime = Date.now()} = props;
-  // console.log(prevStartTime);
-  // const mills = Date.now() - prevStartTime;
-  // const diff = Math.floor(mills / 1000);
-  // initialTimestamp = initialTimestamp - diff;
-  // const initialMinutes = parseInt(initialTimestamp / 60);
-  // const initialSeconds = Math.round(initialTimestamp % 60);
 
-  // console.log(initialMinutes, initialSeconds);
 
   const [minutes, setMinutes] = useState(initialMinutes);
   const [seconds, setSeconds] = useState(initialSeconds);
@@ -30,7 +21,6 @@ const Timer = (props) => {
   // console.log(router.query.itemId)
 
 
-  // // test mode
   const itemId = props.itemId;
   const uid = props.uid;
   // console.log(uid, itemId);
@@ -48,6 +38,55 @@ const Timer = (props) => {
 
   });
 
+  // set StartTime of a timer
+  // const getIsActive = async () => {
+  //       const doc = await getDocs(cur_doc);
+  //       // let isActive = data.data();
+  //       console.log(doc.data());
+  //       return isActive;
+
+  //     };
+  // const docRef = doc(db, "cities", "SF");
+  // const docSnap = await getDoc(cur_doc);
+
+  // if (docSnap.exists()) {
+  //   console.log("Document data:", docSnap.data());
+  // } 
+
+
+  const checkIsActive = async () => {
+    const data = await getDoc(cur_doc);
+    // console.log("Document data:", data.data().isActive);
+    return data.data();
+  };
+
+
+  function second2TimeList (timeStamp) {
+    const min = parseInt(timeStamp / 60);
+    const sec = Math.round(timeStamp % 60);
+    return [min, sec];
+  }
+
+
+  checkIsActive().then(data=>{
+    console.log('check:', data);
+    let isActive = data.isActive;
+    if (isActive){
+      // let leftTime = data.leftTime;
+      // lastStartTime = data.timeSet[data.timeSet.length-1];
+      // console.log(last)
+
+
+    }else{
+      let leftTime = data.leftTime;
+      let timeArray = second2TimeList(leftTime); //timeArray: [min, sec]
+      setMinutes(timeArray[0]);
+      setSeconds(timeArray[1]);
+    }
+
+  })
+
+
 
 
   const updateActive = async (isActive) => {
@@ -58,14 +97,19 @@ const Timer = (props) => {
     await updateDoc(cur_doc, { "isReset": isReset });
   };
 
-  
-  
-  // updateActive(false);
-  // if (QRstate) {
-  //   setIsCountingDown(true);
-  //   QRstate = false;
-  // }
+  const updateTimeSet = async () => {
+    // const data = await getDoc(cur_doc);
+    // await updateDoc(cur_doc, { "isReset": isReset });
+    console.log('isRun');
 
+    const unionRes = await cur_doc.update({
+      timeSet: FieldValue.arrayUnion('greater_virginia')
+    });
+
+    };
+
+  
+  
 
 
   useEffect(() => {
@@ -96,6 +140,9 @@ const Timer = (props) => {
     setStartTime(Date.now());
     setIsCountingDown(true);
     updateActive(true);
+    console.log('here1');
+    updateTimeSet();
+
   }
 
   const handlePause = () => {

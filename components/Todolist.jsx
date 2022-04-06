@@ -29,7 +29,7 @@ function Todolist(props) {
       author: { name: auth.currentUser.displayName, id: auth.currentUser.uid },
       isActive: false,
       isReset: false,
-      leftTime: 25,
+      leftTime: 25*60,
     });
   };
   
