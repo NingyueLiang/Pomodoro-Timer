@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import QRCode from 'react-qr-code';
 import { useRouter } from 'next/router'
-import { Button, ButtonGroup, CircularProgress, CircularProgressLabel, Center, Box, Divider } from '@chakra-ui/react'
+import { Button, ButtonGroup, CircularProgress, CircularProgressLabel, Center, Box, Divider, AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay, useDisclosure } from '@chakra-ui/react'
 
 const Timer = (props) => {
   const { initialMinutes = 25, initialSeconds = 0 } = props;
@@ -26,6 +26,10 @@ const Timer = (props) => {
   const [circularProgressValue, setCircularProgressValue] = useState(100);
 
   const router = useRouter();
+
+  //for timer reset alert popup:
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const cancelRef = React.useRef();
 
   useEffect(() => {
     const countdownInterval = setInterval(() => {
@@ -61,6 +65,10 @@ const Timer = (props) => {
 
   const handlePause = () => {
     setIsCountingDown(false);
+  }
+
+  const handleResetAttempt = () => {
+    onOpen();
   }
 
   const handleReset = () => {
@@ -131,7 +139,7 @@ const Timer = (props) => {
             <ButtonGroup>
               {isCountingDown && <Button colorScheme='yellow' size='lg' onClick={handlePause}>Pause</Button>}
               {!isCountingDown && <Button colorScheme='green' size='lg' onClick={handleStart}>Start</Button>}              
-              <Button colorScheme='red' size='lg' onClick={handleReset}>Reset</Button>
+              <Button colorScheme='red' size='lg' onClick={onOpen}>Reset</Button>
             </ButtonGroup>
           </Center>
           <Divider mb={10}/>
@@ -140,7 +148,41 @@ const Timer = (props) => {
           </Center>
         </>
       }
+
+      {//AlertDialog example sourced from https://chakra-ui.com/docs/components/overlay/alert-dialog
+    }
+    <AlertDialog
+        isOpen={isOpen}
+        leastDestructiveRef={cancelRef}
+        onClose={onClose}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+              Reset Timer to 25 Minutes
+            </AlertDialogHeader>
+
+            <AlertDialogBody>
+              Are you sure? You can not undo this!
+            </AlertDialogBody>
+
+            <AlertDialogFooter>
+              <Button ref={cancelRef} onClick={onClose}>
+                Cancel
+              </Button>
+              <Button colorScheme='red' onClick={() => {
+                onClose();
+                handleReset();
+              }} ml={3}>
+                Reset
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
     </Box>
+
+    
   );
 };
 
