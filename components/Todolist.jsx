@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import TodoItem from "./TodoItem";
 import {db, auth } from "../firebase/clientApp"
 import { addDoc, getDocs,deleteDoc, doc, collection, onSnapshot } from "firebase/firestore";
+import { Heading, Box, Center, Input, InputGroup, InputRightElement, Divider, IconButton } from '@chakra-ui/react'
+import { AddIcon } from '@chakra-ui/icons'
 
 
 function Todolist(props) {
@@ -18,10 +20,6 @@ function Todolist(props) {
 //     console.log("Current data: ", doc.data());
 //     console.log('execute!!!')
 // });
-
-
-
-
 
   const add2DB = async () => {
     await addDoc(postsCollectionRef, {
@@ -64,7 +62,8 @@ function Todolist(props) {
     setTotalTime(Math.floor(Math.random() * 300+100));
   }
 
-  function addItem() {
+  function addItem(e) {
+    e.preventDefault();
     if(inputText !== ""){
     // console.log(items);
 
@@ -102,45 +101,33 @@ function Todolist(props) {
 
 
   return (
-    <div className="container" style={{display:showElem ? "block":"None"}}>
-      <div className="heading">
-        <h1 onClick={handleShow} >To-Do List</h1>
-      </div>
-      <div className="form">
-        <input onChange={handleChange} type="text" value={inputText} />
-        <button onClick={addItem}>
-          <span>Add</span>
-        </button>
-      </div>
-      <div>
-        {/* <ul>
-          {items.map((todoItem, todoIdx) => (
-            // <li>{todoItem}</li>
-            <TodoItem
-              key={todoIdx}
-              id={todoIdx}
-              item={todoItem}
-              toDelete={deleteItem}
-              toTimer={handleToTimer}
-            />
-          ))}
-        </ul> */}
-        <ul>
-          {items.map((item, idx) => (
-            // <li>{todoItem}</li>
+    <Box>
+      <Center>
+        <Heading color='green.600'>Tasks</Heading>
+      </Center>
+        <form onSubmit={addItem}>
+          <InputGroup size='lg' mt={1} mb={6}>
+            <Input onChange={handleChange} value={inputText} bg='gray.200' placeholder='Add new...' />
+            <InputRightElement mx={1}>
+              <IconButton colorScheme='green' aria-label='Add new ToDo' icon={<AddIcon />} onClick={addItem}></IconButton>
+            </InputRightElement>
+          </InputGroup>
+        </form>
+
+        {items.map((item, idx) => (
+          <>
             <TodoItem
               key={idx}
               itemId={item.id}
               uid={auth.currentUser.uid}
-              item={item.inputText}
+              name={item.inputText}
               toDelete={deleteItem}
               toTimer={handleToTimer}
             />
-          ))}
-        </ul>
-
-      </div>
-    </div>
+            <Divider m={2}/>
+          </>
+      ))}
+    </Box>
   );
 }
 
