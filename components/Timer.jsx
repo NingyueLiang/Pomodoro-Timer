@@ -15,8 +15,6 @@ const Timer = (props) => {
   // const initialMinutes = parseInt(initialTimestamp / 60);
   // const initialSeconds = Math.round(initialTimestamp % 60);
 
-  console.log(initialMinutes, initialSeconds);
-
   const [minutes, setMinutes] = useState(initialMinutes);
   const [seconds, setSeconds] = useState(initialSeconds);
   const [isCountingDown, setIsCountingDown] = useState(false);
@@ -24,6 +22,8 @@ const Timer = (props) => {
   const [qrVisible, setQRVisible] = useState(false);
   const [qrValue, setQRValue] = useState('');
   const [startTime, setStartTime] = useState(0);
+
+  const [circularProgressValue, setCircularProgressValue] = useState(100);
 
   const router = useRouter();
 
@@ -44,6 +44,8 @@ const Timer = (props) => {
           }
         }
       }
+
+      setCircularProgressValue(calculatePercentage());
     }, 1000);
     return () => {
       clearInterval(countdownInterval);
@@ -114,27 +116,27 @@ const Timer = (props) => {
           <QRCode size='192' value={qrValue} />
         </Center>
         <Center>
-          <Button colorScheme='green' m={3} onClick={toggleShowQR}>Show Timer</Button>
+          <Button colorScheme='blue' m={3} size='lg' onClick={toggleShowQR}>Show Timer</Button>
         </Center>
       </Box>
       }
       {!qrVisible &&
         <>
           <Center my={5}>
-            <CircularProgress color='green.700' value={calculatePercentage()} size={['120px', '240px', '360px']}>
+            <CircularProgress color='green.500' value={circularProgressValue} size={['120px', '240px', '360px']}>
               <CircularProgressLabel>{minutes}:{seconds < 10 ? `0${seconds}` : seconds}</CircularProgressLabel>
             </CircularProgress>
           </Center>
           <Center my={5}>
             <ButtonGroup>
-              {isCountingDown && <Button colorScheme='green' size='lg' onClick={handlePause}>Stop</Button>}
+              {isCountingDown && <Button colorScheme='yellow' size='lg' onClick={handlePause}>Pause</Button>}
               {!isCountingDown && <Button colorScheme='green' size='lg' onClick={handleStart}>Start</Button>}              
-              <Button colorScheme='green' size='lg' onClick={handleReset}>Reset</Button>
+              <Button colorScheme='red' size='lg' onClick={handleReset}>Reset</Button>
             </ButtonGroup>
           </Center>
           <Divider mb={10}/>
           <Center>
-            <Button colorScheme='green' size='lg' onClick={handleCreateQRCode}>Create QR</Button>
+            <Button colorScheme='blue' size='lg' onClick={handleCreateQRCode}>Create QR</Button>
           </Center>
         </>
       }
