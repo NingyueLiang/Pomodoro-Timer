@@ -95,7 +95,7 @@ function Todolist(props) {
   return (
     <Box w='90%'>
       <Center>
-        <Heading color='green.600'>Tasks</Heading>
+        <Heading color='green.500'>Tasks</Heading>
       </Center>
         <form onSubmit={addItem}>
           <InputGroup size='lg' mt={1} mb={6}>
