@@ -33,9 +33,6 @@ export default function Home() {
               <Timer/>
             </Center>
           </Box>
-
-          <Spacer />
-
           <Box w={['200px', '300px', '400px']} bg='gray.100'>
             <Center  p={2}>
               <Todolist getTitle={handleTimerTitle} />
