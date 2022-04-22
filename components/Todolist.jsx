@@ -12,14 +12,7 @@ function Todolist(props) {
   const [timeSet, setTimeSet] = useState([]);
   const [items, setItems] = useState([]);
   const [showElem, setShowElem] = useState(true);
-  // const postsCollectionRef = collection(db, "posts");
   const postsCollectionRef = collection(db, `users/${auth.currentUser.uid}/todos`);
-
-//   const collection_dir = `users/${auth.currentUser.uid}/todos`;
-//   const unsub = onSnapshot(doc(db, collection_dir, "BfT3y04qrDPsWhIY5y3H"), (doc) => {
-//     console.log("Current data: ", doc.data());
-//     console.log('execute!!!')
-// });
 
   const add2DB = async () => {
     await addDoc(postsCollectionRef, {
@@ -43,7 +36,6 @@ function Todolist(props) {
 
   
   const deleteItem = async (id) => {
-    
     const getItems = async () => {
       const data = await getDocs(postsCollectionRef);
       setItems(data.docs.map((doc) => ({...doc.data(), id: doc.id })));
