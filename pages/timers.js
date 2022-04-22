@@ -35,7 +35,7 @@ const Timers = ({ query }) => {
 
   return (
     <div>
-      <Header />
+      <Header isLoggedIn={user}/>
       {user && (
         <>
           <h1>{curTodo}</h1>

@@ -22,26 +22,28 @@ export default function Home() {
 
   return (
     <>
-      <Header isLoggedIn={user}/>
       {loading && <h4>Loading...</h4>}
       {!user && <Auth />}
       {user &&
-          <Flex p={1} color='black' minH ='80vh'>
-            <Box w={['300px', '500px', '1400px']} bg='gray.200'>
-              <Center p={2}>
-                <Timer/>
-              </Center>
-            </Box>
+      <Box>
+        <Header pos='absolute' isLoggedIn={user}/>
+        <Flex p={1} color='black' minH ='80vh'>
+          <Box w={['300px', '500px', '1400px']} bg='gray.200'>
+            <Center p={2}>
+              <Timer/>
+            </Center>
+          </Box>
 
-            <Spacer />
+          <Spacer />
 
-            <Box w={['200px', '300px', '400px']} bg='gray.100'>
-              <Center  p={2}>
-                <Todolist getTitle={handleTimerTitle} />
-              </Center>
-            </Box >
-          </Flex>
-        }
+          <Box w={['200px', '300px', '400px']} bg='gray.100'>
+            <Center  p={2}>
+              <Todolist getTitle={handleTimerTitle} />
+            </Center>
+          </Box >
+        </Flex>
+      </Box>
+      }
 
       <Center>
           <Footer />

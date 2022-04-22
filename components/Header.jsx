@@ -9,7 +9,7 @@ function Header(props) {
     }
 
     return (
-        <Flex bgGradient='linear(green.300 0%, green.400 80%, green.300 100%)' w='100%'>
+        <Flex bgGradient='linear(green.300 0%, green.400 80%, green.300 100%)' minW='100%'>
             <Box p={2}>
                 <Heading color='white' size='lg' ml={5}>Foocus</Heading>
             </Box>
@@ -20,7 +20,6 @@ function Header(props) {
                         Logout
                     </Button>
                 }
-
             </Box>
         </Flex>   
     );

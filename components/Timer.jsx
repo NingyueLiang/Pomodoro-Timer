@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import QRCode from 'react-qr-code';
 import { useRouter } from 'next/router'
-import { Button, ButtonGroup } from '@chakra-ui/react'
+import { Button, ButtonGroup, CircularProgress, CircularProgressLabel, Center, Box, Divider } from '@chakra-ui/react'
 
 const Timer = (props) => {
   const { initialMinutes = 25, initialSeconds = 0 } = props;
@@ -82,46 +82,63 @@ const Timer = (props) => {
 
   const toggleShowQR = () => {
     setQRVisible(!qrValue);
-    if (isCountingDown){
-    let initialTimestamp = 25 * 60;
-    const prevStartTime = startTime;
-    // const mills = 1646593098423 - prevStartTime;
-    const mills = Date.now() - prevStartTime;
+    if (isCountingDown) {
+      let initialTimestamp = 25 * 60;
+      const prevStartTime = startTime;
+      // const mills = 1646593098423 - prevStartTime;
+      const mills = Date.now() - prevStartTime;
 
-    // console.log(Date.now());
-    const diff = mills / 1000;
-    // const diff = 40;
-    initialTimestamp = initialTimestamp - diff;
-    const resetlMinutes = parseInt(initialTimestamp / 60);
-    const resetSeconds = Math.round(initialTimestamp % 60);
-    setMinutes(resetlMinutes);
-    setSeconds(resetSeconds);
+      // console.log(Date.now());
+      const diff = mills / 1000;
+      // const diff = 40;
+      initialTimestamp = initialTimestamp - diff;
+      const resetlMinutes = parseInt(initialTimestamp / 60);
+      const resetSeconds = Math.round(initialTimestamp % 60);
+      setMinutes(resetlMinutes);
+      setSeconds(resetSeconds);
+    }
   }
-  }
+
+  const calculatePercentage = () => {
+    const fullTimerCount = 25 * 60; //25 minutes * 60 seconds
+    const currentTimerCount = (minutes * 60) + seconds;
+
+    return (currentTimerCount / fullTimerCount) * 100;
+  };
 
   return (
-<div className='timer'>
+    <Box>
       {qrVisible &&
-        <>
-          <QRCode value={qrValue} />
-          <button onClick={toggleShowQR}>Show Timer</button>
-        </>
+      <Box mx='auto' my={5}>
+        <Center m={5}>
+          <QRCode size='192' value={qrValue} />
+        </Center>
+        <Center>
+          <Button colorScheme='green' m={3} onClick={toggleShowQR}>Show Timer</Button>
+        </Center>
+      </Box>
       }
       {!qrVisible &&
         <>
-          <h1>
-            {' '}
-            {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
-          </h1>
-          <Button colorScheme='green' onClick={handleStart}>Start</Button>
-          <Button colorScheme='green' onClick={handlePause}>Stop</Button>
-          <Button colorScheme='green' onClick={handleReset}>Reset</Button>
-
-          <br /><br /><br />
-          <button onClick={handleCreateQRCode}>Create QR</button>
+          <Center my={5}>
+            <CircularProgress color='green.700' value={calculatePercentage()} size={['120px', '240px', '360px']}>
+              <CircularProgressLabel>{minutes}:{seconds < 10 ? `0${seconds}` : seconds}</CircularProgressLabel>
+            </CircularProgress>
+          </Center>
+          <Center my={5}>
+            <ButtonGroup>
+              {isCountingDown && <Button colorScheme='green' size='lg' onClick={handlePause}>Stop</Button>}
+              {!isCountingDown && <Button colorScheme='green' size='lg' onClick={handleStart}>Start</Button>}              
+              <Button colorScheme='green' size='lg' onClick={handleReset}>Reset</Button>
+            </ButtonGroup>
+          </Center>
+          <Divider mb={10}/>
+          <Center>
+            <Button colorScheme='green' size='lg' onClick={handleCreateQRCode}>Create QR</Button>
+          </Center>
         </>
       }
-    </div>
+    </Box>
   );
 };
 
