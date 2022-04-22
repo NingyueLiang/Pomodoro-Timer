@@ -23,7 +23,7 @@ function TodoItem(props) {
 
   return (
     <>
-    <Flex>
+    <Flex wrap='wrap'>
       <Center>{props.name}</Center>
       <Spacer />
       <ButtonGroup ml={2}>

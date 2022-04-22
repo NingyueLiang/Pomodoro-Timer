@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import TodoItem from "./TodoItem";
 import {db, auth } from "../firebase/clientApp"
 import { addDoc, getDocs,deleteDoc, doc, collection, onSnapshot } from "firebase/firestore";
-import { Heading, Box, Center, Input, InputGroup, InputRightElement, Divider, IconButton } from '@chakra-ui/react'
+import { Heading, Box, Center, Input, InputGroup, InputRightElement, VStack, StackDivider, IconButton } from '@chakra-ui/react'
 import { AddIcon } from '@chakra-ui/icons'
 
 
@@ -93,7 +93,7 @@ function Todolist(props) {
 
 
   return (
-    <Box>
+    <Box w='90%'>
       <Center>
         <Heading color='green.600'>Tasks</Heading>
       </Center>
@@ -106,19 +106,24 @@ function Todolist(props) {
           </InputGroup>
         </form>
 
-        {items.map((item, idx) => (
-          <>
-            <TodoItem
-              key={idx}
-              itemId={item.id}
-              uid={auth.currentUser.uid}
-              name={item.inputText}
-              toDelete={deleteItem}
-              toTimer={handleToTimer}
-            />
-            <Divider m={2}/>
-          </>
-      ))}
+        <VStack
+          divider={<StackDivider borderColor='gray.200' />}
+          spacing={3}
+          align='normal'
+        >  
+          {items.map((item, idx) => (
+            <>
+              <TodoItem
+                key={idx}
+                itemId={item.id}
+                uid={auth.currentUser.uid}
+                name={item.inputText}
+                toDelete={deleteItem}
+                toTimer={handleToTimer}
+              />
+            </>
+        ))}
+        </VStack>
     </Box>
   );
 }
