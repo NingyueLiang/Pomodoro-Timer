@@ -43,12 +43,12 @@ const Timers = ({ query }) => {
           <Box w={['65%', '70%', '75%']} bg='gray.200'>
             <Center p={1}>
             {router.isReady && ( <>
-              <Heading>{curTodo}</Heading>
               <Timer
                 initialMinutes={25}
                 initialSeconds={0}
                 itemId={router.query.timerId}
                 uid={router.query.uid}
+                title={curTodo}
               />
             </>)}
             </Center>

@@ -27,7 +27,7 @@ export default function Home() {
       {user &&
       <Box>
         <Header pos='absolute' isLoggedIn={user}/>
-          <Box w='60%' mx='auto' bg='gray.100'>
+          <Box w='75%' borderRadius={4} mx='auto' bg='gray.100'>
             <Center p={1}>
               <Todolist getTitle={handleTimerTitle} />
             </Center>
