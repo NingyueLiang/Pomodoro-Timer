@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import TodoItem from "./TodoItem";
 import {db, auth } from "../firebase/clientApp"
 import { addDoc, getDocs,deleteDoc, doc, collection, onSnapshot } from "firebase/firestore";
+import { Heading, Box, Center, Input, InputGroup, InputRightElement, VStack, StackDivider, IconButton } from '@chakra-ui/react'
+import { AddIcon } from '@chakra-ui/icons'
 
 
 function Todolist(props) {
@@ -10,18 +12,7 @@ function Todolist(props) {
   const [timeSet, setTimeSet] = useState([]);
   const [items, setItems] = useState([]);
   const [showElem, setShowElem] = useState(true);
-  // const postsCollectionRef = collection(db, "posts");
   const postsCollectionRef = collection(db, `users/${auth.currentUser.uid}/todos`);
-
-//   const collection_dir = `users/${auth.currentUser.uid}/todos`;
-//   const unsub = onSnapshot(doc(db, collection_dir, "BfT3y04qrDPsWhIY5y3H"), (doc) => {
-//     console.log("Current data: ", doc.data());
-//     console.log('execute!!!')
-// });
-
-
-
-
 
   const add2DB = async () => {
     await addDoc(postsCollectionRef, {
@@ -45,7 +36,6 @@ function Todolist(props) {
 
   
   const deleteItem = async (id) => {
-    
     const getItems = async () => {
       const data = await getDocs(postsCollectionRef);
       setItems(data.docs.map((doc) => ({...doc.data(), id: doc.id })));
@@ -64,7 +54,8 @@ function Todolist(props) {
     setTotalTime(Math.floor(Math.random() * 300+100));
   }
 
-  function addItem() {
+  function addItem(e) {
+    e.preventDefault();
     if(inputText !== ""){
     // console.log(items);
 
@@ -102,45 +93,38 @@ function Todolist(props) {
 
 
   return (
-    <div className="container" style={{display:showElem ? "block":"None"}}>
-      <div className="heading">
-        <h1 onClick={handleShow} >To-Do List</h1>
-      </div>
-      <div className="form">
-        <input onChange={handleChange} type="text" value={inputText} />
-        <button onClick={addItem}>
-          <span>Add</span>
-        </button>
-      </div>
-      <div>
-        {/* <ul>
-          {items.map((todoItem, todoIdx) => (
-            // <li>{todoItem}</li>
-            <TodoItem
-              key={todoIdx}
-              id={todoIdx}
-              item={todoItem}
-              toDelete={deleteItem}
-              toTimer={handleToTimer}
-            />
-          ))}
-        </ul> */}
-        <ul>
-          {items.map((item, idx) => (
-            // <li>{todoItem}</li>
-            <TodoItem
-              key={idx}
-              itemId={item.id}
-              uid={auth.currentUser.uid}
-              item={item.inputText}
-              toDelete={deleteItem}
-              toTimer={handleToTimer}
-            />
-          ))}
-        </ul>
+    <Box w='90%'>
+      <Center>
+        <Heading color='green.500'>Tasks</Heading>
+      </Center>
+        <form onSubmit={addItem}>
+          <InputGroup size='lg' mt={1} mb={6}>
+            <Input onChange={handleChange} value={inputText} bg='gray.200' placeholder='Add new...' />
+            <InputRightElement mx={1}>
+              <IconButton colorScheme='green' aria-label='Add new ToDo' icon={<AddIcon />} onClick={addItem}></IconButton>
+            </InputRightElement>
+          </InputGroup>
+        </form>
 
-      </div>
-    </div>
+        <VStack
+          divider={<StackDivider borderColor='gray.200' />}
+          spacing={3}
+          align='normal'
+        >  
+          {items.map((item, idx) => (
+            <>
+              <TodoItem
+                key={idx}
+                itemId={item.id}
+                uid={auth.currentUser.uid}
+                name={item.inputText}
+                toDelete={deleteItem}
+                toTimer={handleToTimer}
+              />
+            </>
+        ))}
+        </VStack>
+    </Box>
   );
 }
 

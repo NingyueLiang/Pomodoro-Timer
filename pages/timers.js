@@ -9,6 +9,8 @@ import React, { useState, useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import firebase from "../firebase/clientApp";
 
+import { Box, Flex, Center } from '@chakra-ui/react'
+
 const Timers = ({ query }) => {
   const router = useRouter();
 
@@ -27,33 +29,41 @@ const Timers = ({ query }) => {
   const [user, loading, error] = useAuthState(firebase.auth());
   const [curTodo, setCurTodo] = useState();
   // console.log(user);
-  // console.log(router.query.timerId, router.query.uid)
+  // console.log(router.query.timerId, router.query.uid)    <Heading>{curTodo}</Heading>
 
   function handleTimerTitle(title) {
     setCurTodo(title);
   }
 
   return (
-    <div>
-      <Header />
-      {user && (
-        <>
-          <h1>{curTodo}</h1>
-          <Todolist getTitle={handleTimerTitle} />
-        </>
-      )}
-      {router.isReady && (
-        <Timer
-          initialMinutes={25}
-          initialSeconds={0}
-          itemId={router.query.timerId}
-          uid={router.query.uid}
-        />
-      )}
-      {/* {router.isReady && <Timer prevStartTime={router.query.startTime} isQR={router.query.isQR}/>} */}
+    <>
+      <Box>
+        <Header pos='absolute' isLoggedIn={user}/>
+        <Flex color='black' minH ='80vh'>
+          <Box w={['300px', '500px', '1400px']} bg='gray.200'>
+            <Center p={1}>
+            {router.isReady && (
+              <Timer
+                initialMinutes={25}
+                initialSeconds={0}
+                itemId={router.query.timerId}
+                uid={router.query.uid}
+              />
+            )}
+            </Center>
+          </Box>
+          <Box w={['200px', '300px', '400px']} bg='gray.100'>
+            <Center p={1}>
+              {user && <Todolist getTitle={handleTimerTitle} />}
+            </Center>
+          </Box >
+        </Flex>
+      </Box>
 
-      <Footer />
-    </div>
+      <Center>
+          <Footer />
+      </Center>
+    </>
   );
 };
 

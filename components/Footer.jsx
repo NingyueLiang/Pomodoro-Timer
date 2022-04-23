@@ -1,10 +1,11 @@
 import React from "react";
+import { Center } from '@chakra-ui/react'
 
 function Footer() {
     return (
-    <footer>
-    <p>CSE 437S Spring 2022</p>
-    </footer>
+    <Center>
+        CSE 437S - Spring 2022
+    </Center>
     );
 }
 

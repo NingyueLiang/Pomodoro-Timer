@@ -5,9 +5,10 @@ import Todolist from "../components/Todolist";
 import Timer from "../components/Timer";
 import Auth from "../components/Auth";
 
-
 import { useAuthState } from "react-firebase-hooks/auth";
 import firebase from "../firebase/clientApp";
+
+import { Box, Flex, Center } from '@chakra-ui/react'
 
 export default function Home() {
   const [curTodo, setCurTodo] = useState();
@@ -20,17 +21,30 @@ export default function Home() {
   const [user, loading, error] = useAuthState(firebase.auth());
 
   return (
-    <div>
+    <>
       {loading && <h4>Loading...</h4>}
       {!user && <Auth />}
-      {user && 
-        <>
-          <Header />
-          <h1>{curTodo}</h1>
-          <Todolist getTitle={handleTimerTitle} />
-          {/* <Timer/> */}
+      {user &&
+      <Box>
+        <Header pos='absolute' isLoggedIn={user}/>
+        <Flex color='black' minH ='80vh'>
+          <Box w={['300px', '500px', '1400px']} bg='gray.200'>
+            <Center p={1}>
+              <Timer/>
+            </Center>
+          </Box>
+          <Box w={['200px', '300px', '400px']} bg='gray.100'>
+            <Center p={1}>
+              <Todolist getTitle={handleTimerTitle} />
+            </Center>
+          </Box >
+        </Flex>
+      </Box>
+      }
+
+      <Center>
           <Footer />
-        </>}
-    </div>
+      </Center>
+    </>
   );
 }
