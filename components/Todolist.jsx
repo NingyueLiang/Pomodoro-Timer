@@ -112,7 +112,6 @@ function Todolist(props) {
           align='normal'
         >  
           {items.map((item, idx) => (
-            <>
               <TodoItem
                 key={idx}
                 itemId={item.id}
@@ -121,7 +120,6 @@ function Todolist(props) {
                 toDelete={deleteItem}
                 toTimer={handleToTimer}
               />
-            </>
         ))}
         </VStack>
     </Box>
