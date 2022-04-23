@@ -131,7 +131,7 @@ const Timer = (props) => {
       {!qrVisible &&
         <>
           <Center my={5}>
-            <Heading>{props.title}</Heading>
+            <Heading>{props.title}Test</Heading>
           </Center>
           <Center my={5}>
             <CircularProgress color='green.500' value={circularProgressValue} size={['180px', '260px', '380px']}>
