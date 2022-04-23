@@ -9,7 +9,7 @@ import React, { useState, useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import firebase from "../firebase/clientApp";
 
-import { Box, Flex, Center } from '@chakra-ui/react'
+import { Box, Flex, Center, Heading } from '@chakra-ui/react'
 
 const Timers = ({ query }) => {
   const router = useRouter();
@@ -42,14 +42,15 @@ const Timers = ({ query }) => {
         <Flex color='black' minH ='80vh'>
           <Box w={['65%', '70%', '75%']} bg='gray.200'>
             <Center p={1}>
-            {router.isReady && (
+            {router.isReady && ( <>
+              <Heading>{curTodo}</Heading>
               <Timer
                 initialMinutes={25}
                 initialSeconds={0}
                 itemId={router.query.timerId}
                 uid={router.query.uid}
               />
-            )}
+            </>)}
             </Center>
           </Box>
           <Box flex={1} bg='gray.100'>
