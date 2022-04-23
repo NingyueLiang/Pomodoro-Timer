@@ -40,7 +40,7 @@ const Timers = ({ query }) => {
       <Box>
         <Header pos='absolute' isLoggedIn={user}/>
         <Flex color='black' minH ='80vh'>
-          <Box w={['300px', '500px', '1400px']} bg='gray.200'>
+          <Box w={['65%', '70%', '75%']} bg='gray.200'>
             <Center p={1}>
             {router.isReady && (
               <Timer
@@ -52,7 +52,7 @@ const Timers = ({ query }) => {
             )}
             </Center>
           </Box>
-          <Box w={['200px', '300px', '400px']} bg='gray.100'>
+          <Box flex={1} bg='gray.100'>
             <Center p={1}>
               {user && <Todolist getTitle={handleTimerTitle} />}
             </Center>
