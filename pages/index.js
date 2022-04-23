@@ -8,7 +8,7 @@ import Auth from "../components/Auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import firebase from "../firebase/clientApp";
 
-import { SimpleGrid, Box, Flex, Text, Center, Square, Spacer } from '@chakra-ui/react'
+import { Box, Flex, Center } from '@chakra-ui/react'
 
 export default function Home() {
   const [curTodo, setCurTodo] = useState();
@@ -27,14 +27,14 @@ export default function Home() {
       {user &&
       <Box>
         <Header pos='absolute' isLoggedIn={user}/>
-        <Flex p={1} color='black' minH ='80vh'>
+        <Flex color='black' minH ='80vh'>
           <Box w={['300px', '500px', '1400px']} bg='gray.200'>
-            <Center p={2}>
+            <Center p={1}>
               <Timer/>
             </Center>
           </Box>
           <Box w={['200px', '300px', '400px']} bg='gray.100'>
-            <Center  p={2}>
+            <Center p={1}>
               <Todolist getTitle={handleTimerTitle} />
             </Center>
           </Box >

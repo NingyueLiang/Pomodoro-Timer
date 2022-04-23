@@ -48,7 +48,6 @@ const Timer = (props) => {
           }
         }
       }
-
       setCircularProgressValue(calculatePercentage());
     }, 1000);
     return () => {
@@ -74,6 +73,7 @@ const Timer = (props) => {
   const handleReset = () => {
     setMinutes(initialMinutes);
     setSeconds(initialSeconds);
+    
   }
 
   const handleCreateQRCode = async () => {
@@ -131,7 +131,7 @@ const Timer = (props) => {
       {!qrVisible &&
         <>
           <Center my={5}>
-            <CircularProgress color='green.500' value={circularProgressValue} size={['120px', '240px', '360px']}>
+            <CircularProgress color='green.500' value={circularProgressValue} size={['180px', '260px', '380px']}>
               <CircularProgressLabel>{minutes}:{seconds < 10 ? `0${seconds}` : seconds}</CircularProgressLabel>
             </CircularProgress>
           </Center>
@@ -139,7 +139,7 @@ const Timer = (props) => {
             <ButtonGroup>
               {isCountingDown && <Button colorScheme='yellow' size='lg' onClick={handlePause}>Pause</Button>}
               {!isCountingDown && <Button colorScheme='green' size='lg' onClick={handleStart}>Start</Button>}              
-              <Button colorScheme='red' size='lg' onClick={onOpen}>Reset</Button>
+              <Button colorScheme='red' size='lg' onClick={handleResetAttempt}>Reset</Button>
             </ButtonGroup>
           </Center>
           <Divider mb={10}/>
@@ -163,7 +163,7 @@ const Timer = (props) => {
             </AlertDialogHeader>
 
             <AlertDialogBody>
-              Are you sure? You can not undo this!
+              Are you sure? You cannot undo this!
             </AlertDialogBody>
 
             <AlertDialogFooter>

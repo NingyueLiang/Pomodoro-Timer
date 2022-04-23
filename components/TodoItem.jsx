@@ -46,7 +46,7 @@ function TodoItem(props) {
             </AlertDialogHeader>
 
             <AlertDialogBody>
-              Are you sure? You can not undo this!
+              Are you sure? You cannot undo this!
             </AlertDialogBody>
 
             <AlertDialogFooter>
