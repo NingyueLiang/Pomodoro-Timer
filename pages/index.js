@@ -27,18 +27,11 @@ export default function Home() {
       {user &&
       <Box>
         <Header pos='absolute' isLoggedIn={user}/>
-        <Flex color='black' minH ='80vh'>
-          <Box w={['65%', '70%', '75%']} bg='gray.200'>
-            <Center p={1}>
-              <Timer/>
-            </Center>
-          </Box>
-          <Box flex={1} bg='gray.100'>
+          <Box w='60%' mx='auto' bg='gray.100'>
             <Center p={1}>
               <Todolist getTitle={handleTimerTitle} />
             </Center>
           </Box >
-        </Flex>
       </Box>
       }
 
