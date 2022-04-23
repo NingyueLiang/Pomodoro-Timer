@@ -32,7 +32,7 @@ function Todolist(props) {
     };
 
     getItems();
-  }, [deleteItem]);
+  });
 
   
   const deleteItem = async (id) => {
@@ -108,7 +108,7 @@ function Todolist(props) {
 
         <VStack
           divider={<StackDivider borderColor='gray.200' />}
-          spacing={3}
+          spacing={2}
           align='normal'
         >  
           {items.map((item, idx) => (
