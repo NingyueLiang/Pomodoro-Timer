@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import QRCode from 'react-qr-code';
 import { useRouter } from 'next/router'
-import { Button, ButtonGroup, CircularProgress, CircularProgressLabel, Center, Box, Divider, AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay, useDisclosure } from '@chakra-ui/react'
+import { Button, ButtonGroup, CircularProgress, CircularProgressLabel, Center, Box, Divider, AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay, useDisclosure, Heading } from '@chakra-ui/react'
 
 const Timer = (props) => {
   const { initialMinutes = 25, initialSeconds = 0 } = props;
@@ -130,6 +130,9 @@ const Timer = (props) => {
       }
       {!qrVisible &&
         <>
+          <Center my={5}>
+            <Heading>{props.title}</Heading>
+          </Center>
           <Center my={5}>
             <CircularProgress color='green.500' value={circularProgressValue} size={['180px', '260px', '380px']}>
               <CircularProgressLabel>{minutes}:{seconds < 10 ? `0${seconds}` : seconds}</CircularProgressLabel>
