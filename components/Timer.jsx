@@ -25,7 +25,9 @@ const Timer = (props) => {
   //for timer reset alert popup:
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = React.useRef();
-  const [todoTitle, setTodoTitle] = useState()
+  const [todoTitle, setTodoTitle] = useState();
+  const [totalTime, setTotalTime] = useState();
+  const [curTimeSet, setCurTimeSet] = useState([]);
 
   const itemId = props.itemId;
   const uid = props.uid;
@@ -56,7 +58,7 @@ const Timer = (props) => {
 
 
 
-  const checkIsActive = async () => {
+  const getDocument = async () => {
     const data = await getDoc(cur_doc);
     // console.log("Document data:", data.data().isActive);
     return data.data();
@@ -72,7 +74,7 @@ const Timer = (props) => {
   useEffect(() => {
     // code to run on component mount
     console.log("window onload");
-    checkIsActive().then(data=>{
+    getDocument().then(data=>{
       console.log('check:', data);
       let isActive = data.isActive;
       console.log(isActive);
@@ -111,14 +113,76 @@ const Timer = (props) => {
     await updateDoc(cur_doc, { "resetState": isReset });
   };
 
-  const updateTimeSet = async () => {
+  const updateTimeSet = async (curTime) => {
     // const data = await getDoc(cur_doc);
     // await updateDoc(cur_doc, { "isReset": isReset });
+    // const curTime = Date.now();
+
     
+
+    // // get totalTime
+    // const getTotalTime = async () => {
+    //   const cur_doc = doc(db, collection_dir, itemId);
+    //   const docSnap = await getDoc(cur_doc);
+    //   setTotalTime(docSnap.data().totalTime)
+  
+    // }
+    // getTotalTime();
+
+    // // get last TimeSet
+    // const getCurTimeSet = async () => {
+    //   const cur_doc = doc(db, collection_dir, itemId);
+    //   const docSnap = await getDoc(cur_doc);
+    //   setCurTimeSet(docSnap.data().timeSet)
+  
+    // }
+    // getCurTimeSet();
+
+    // const diffTime = (curTime - curTimeSet[curTimeSet.length - 1])/1000
+    // console.log(curTimeSet, totalTime, diffTime);
+
+    // // update totalTime
+    // await updateDoc(cur_doc, { "totalTime": totalTime+diffTime });
+
+
+    // update TimeSet
     await updateDoc(cur_doc, {
-      timeSet: arrayUnion(Date.now())
+      timeSet: arrayUnion(curTime)
     })
+
   };
+
+
+  const updateTotalTime = async (curTime) => {
+    // get totalTime
+    // const getTotalTime = async () => {
+    const cur_doc = doc(db, collection_dir, itemId);
+    const docSnap1 = await getDoc(cur_doc);
+
+    const docSnap = await getDoc(cur_doc);
+    console.log(docSnap.data().totalTime);
+  
+    // }
+    // getTotalTime();
+
+
+    // get last TimeSet
+    // const getCurTimeSet = async () => {
+
+  
+    // }
+    // getCurTimeSet();
+     
+    const diffTime = (curTime - docSnap1.data().timeSet[docSnap1.data().timeSet.length - 1])/1000
+    console.log(curTime, docSnap1.data().timeSet[docSnap1.data().timeSet.length - 1], diffTime)
+    // console.log(curTimeSet, totalTime, diffTime);
+
+    // update totalTime
+    await updateDoc(cur_doc, { "totalTime": docSnap.data().totalTime+diffTime });
+
+
+  };
+
 
   const updateLeftTime = async (leftTime) => {
     await updateDoc(cur_doc, { "leftTime": leftTime });
@@ -151,22 +215,25 @@ const Timer = (props) => {
 
   const handleStart = () => {
     // var myDate = new Date();
-    // const startTime = Date.now();
+    const curTime = Date.now();
     if (!isCountingDown){
       setStartTime(Date.now());
       setIsCountingDown(true);
       updateActive(true);
-      updateTimeSet();
+
+      updateTimeSet(curTime);
+
     }
   }
 
   const handlePause = () => {
+    const curTime = Date.now();
     if (isCountingDown){
       setIsCountingDown(false);
       updateReset(false);
       updateActive(false);
-      updateTimeSet();
-
+      updateTotalTime(curTime);
+      updateTimeSet(curTime);
       // set leftTime
       let leftTime = minutes * 60 + seconds
       updateLeftTime(leftTime);
@@ -178,8 +245,10 @@ const Timer = (props) => {
   }
 
   const handleReset = () => {
+    const curTime = Date.now();
     if (isCountingDown){
-      updateTimeSet()
+      updateTotalTime(curTime);
+      updateTimeSet(curTime)
     }
     updateActive(false);
     updateLeftTime(25 * 60);
