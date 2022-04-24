@@ -25,6 +25,7 @@ const Timer = (props) => {
   //for timer reset alert popup:
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = React.useRef();
+  const [todoTitle, setTodoTitle] = useState()
 
   const itemId = props.itemId;
   const uid = props.uid;
@@ -43,20 +44,16 @@ const Timer = (props) => {
 
   });
 
-  // set StartTime of a timer
-  // const getIsActive = async () => {
-  //       const doc = await getDocs(cur_doc);
-  //       // let isActive = data.data();
-  //       console.log(doc.data());
-  //       return isActive;
 
-  //     };
-  // const docRef = doc(db, "cities", "SF");
-  // const docSnap = await getDoc(cur_doc);
+  const getTitle = async () => {
+    const cur_doc = doc(db, collection_dir, itemId);
+    const docSnap = await getDoc(cur_doc);
+    setTodoTitle(docSnap.data().inputText)
+    // console.log("title data:", docSnap.data().inputText);
 
-  // if (docSnap.exists()) {
-  //   console.log("Document data:", docSnap.data());
-  // } 
+  }
+  getTitle();
+
 
 
   const checkIsActive = async () => {
@@ -244,7 +241,7 @@ const Timer = (props) => {
       {!qrVisible &&
         <>
           <Center my={5}>
-            <Heading>{props.title}Test</Heading>
+            <Heading>{todoTitle}</Heading>
           </Center>
           <Center my={5}>
             <CircularProgress color='green.500' value={circularProgressValue} size={['180px', '260px', '380px']}>
