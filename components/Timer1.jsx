@@ -5,10 +5,9 @@ import { useRouter } from 'next/router';
 import { db, auth } from "../firebase/clientApp";
 import { connectFirestoreEmulator, doc, onSnapshot, updateDoc,getDocs,getDoc, arrayUnion } from "firebase/firestore";
 import { Firestore } from "firebase/firestore";
-import { Button, ButtonGroup, CircularProgress, CircularProgressLabel, Center, Box, Divider, AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay, useDisclosure, Heading } from '@chakra-ui/react'
-
 const Timer = (props) => {
   const { initialMinutes = 25, initialSeconds = 0 } = props;
+
 
   const [minutes, setMinutes] = useState(initialMinutes);
   const [seconds, setSeconds] = useState(initialSeconds);
@@ -18,13 +17,9 @@ const Timer = (props) => {
   const [qrValue, setQRValue] = useState('');
   const [startTime, setStartTime] = useState(0);
 
-  const [circularProgressValue, setCircularProgressValue] = useState(100);
-
   const router = useRouter();
+  // console.log(router.query.itemId)
 
-  //for timer reset alert popup:
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const cancelRef = React.useRef();
 
   const itemId = props.itemId;
   const uid = props.uid;
@@ -126,7 +121,8 @@ const Timer = (props) => {
   const updateLeftTime = async (leftTime) => {
     await updateDoc(cur_doc, { "leftTime": leftTime });
   };
-
+  
+  
 
 
   useEffect(() => {
@@ -150,7 +146,6 @@ const Timer = (props) => {
       clearInterval(countdownInterval);
     };
   });
-  
 
   const handleStart = () => {
     // var myDate = new Date();
@@ -176,10 +171,6 @@ const Timer = (props) => {
     }
   }
 
-  const handleResetAttempt = () => {
-    onOpen();
-  }
-
   const handleReset = () => {
     if (isCountingDown){
       updateTimeSet()
@@ -196,10 +187,11 @@ const Timer = (props) => {
   const handleCreateQRCode = async () => {
     // handlePause();
     // countdownInterval();
-    // const url = 'https://foocus.vercel.app/timers?timerId='+props.itemId+'&uid='+props.uid;
-    const url = 'http://localhost:3000/timers?timerId='+props.itemId+'&uid='+props.uid;
+    const url = 'https://foocus.vercel.app/timers?timerId='+props.itemId+'&uid='+props.uid;
+    // const url = 'http://localhost:3000/timers?timerId='+props.itemId+'&uid='+props.uid;
     console.log(url);
     setQRValue(url);
+
     setQRVisible(true);
   }
 
@@ -222,83 +214,30 @@ const Timer = (props) => {
     }
   }
 
-  const calculatePercentage = () => {
-    const fullTimerCount = 25 * 60; //25 minutes * 60 seconds
-    const currentTimerCount = (minutes * 60) + seconds;
-
-    return (currentTimerCount / fullTimerCount) * 100;
-  };
-
   return (
-    <Box>
+    <div className="timer">
       {qrVisible &&
-      <Box mx='auto' my={5}>
-        <Center m={5}>
-          <QRCode size='192' value={qrValue} />
-        </Center>
-        <Center>
-          <Button colorScheme='blue' m={3} size='lg' onClick={toggleShowQR}>Show Timer</Button>
-        </Center>
-      </Box>
+        <>
+          <QRCode value={qrValue} />
+          {/* <Chart /> */}
+          <button onClick={toggleShowQR}>Show Timer</button>
+        </>
       }
       {!qrVisible &&
         <>
-          <Center my={5}>
-            <Heading>{props.title}Test</Heading>
-          </Center>
-          <Center my={5}>
-            <CircularProgress color='green.500' value={circularProgressValue} size={['180px', '260px', '380px']}>
-              <CircularProgressLabel>{minutes}:{seconds < 10 ? `0${seconds}` : seconds}</CircularProgressLabel>
-            </CircularProgress>
-          </Center>
-          <Center my={5}>
-            <ButtonGroup>
-              {isCountingDown && <Button colorScheme='yellow' size='lg' onClick={handlePause}>Pause</Button>}
-              {!isCountingDown && <Button colorScheme='green' size='lg' onClick={handleStart}>Start</Button>}              
-              <Button colorScheme='red' size='lg' onClick={handleResetAttempt}>Reset</Button>
-            </ButtonGroup>
-          </Center>
-          <Divider mb={10}/>
-          <Center>
-            <Button colorScheme='blue' size='lg' onClick={handleCreateQRCode}>Create QR</Button>
-          </Center>
+          <h1>
+            {" "}
+            {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
+          </h1>
+          <button onClick={handleStart}>Start</button>
+          <button onClick={handlePause}>Stop</button>
+          <button onClick={handleReset}>Reset</button>
+
+          <br /><br /><br />
+          <button onClick={handleCreateQRCode}>Create QR</button>
         </>
       }
-
-      {//AlertDialog example sourced from https://chakra-ui.com/docs/components/overlay/alert-dialog
-    }
-    <AlertDialog
-        isOpen={isOpen}
-        leastDestructiveRef={cancelRef}
-        onClose={onClose}
-      >
-        <AlertDialogOverlay>
-          <AlertDialogContent>
-            <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-              Reset Timer to 25 Minutes
-            </AlertDialogHeader>
-
-            <AlertDialogBody>
-              Are you sure? You cannot undo this!
-            </AlertDialogBody>
-
-            <AlertDialogFooter>
-              <Button ref={cancelRef} onClick={onClose}>
-                Cancel
-              </Button>
-              <Button colorScheme='red' onClick={() => {
-                onClose();
-                handleReset();
-              }} ml={3}>
-                Reset
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
-    </Box>
-
-    
+    </div>
   );
 };
 
