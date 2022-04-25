@@ -49,7 +49,7 @@ const Timer = (props) => {
     }else{
       window.setTimeout(function(){
 
-      window.location.href = "http://localhost:3000";
+      window.location.href = "https://foocus.vercel.app/";
 
     }, 3000);
     }
