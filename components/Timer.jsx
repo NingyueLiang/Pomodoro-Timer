@@ -44,11 +44,17 @@ const Timer = (props) => {
 
         // updateReset(false);
       }
+  
+      
     }else{
-      const url = 'https://foocus.vercel.app';
-      window.open(url, '_self');
+      window.setTimeout(function(){
+
+      window.location.href = "http://localhost:3000";
+
+    }, 3000);
     }
-  });
+  }
+  );
 
 
   const getTitle = async () => {

@@ -8,7 +8,6 @@ import React, { useState, useEffect } from "react";
 
 import { useAuthState } from "react-firebase-hooks/auth";
 import firebase from "../firebase/clientApp";
-
 import { Box, Flex, Center, Heading } from '@chakra-ui/react'
 
 const Timers = ({ query }) => {
@@ -34,6 +33,8 @@ const Timers = ({ query }) => {
   function handleTimerTitle(title) {
     setCurTodo(title);
   }
+
+
 
   return (
     <>

@@ -41,8 +41,9 @@ function Todolist(props) {
       setItems(data.docs.map((doc) => ({...doc.data(), id: doc.id })));
     };
     getItems();
-
+    
     const postDoc = doc(db, `users/${auth.currentUser.uid}/todos`, id);
+    
     await deleteDoc(postDoc);
     
   };
