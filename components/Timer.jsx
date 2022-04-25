@@ -264,8 +264,8 @@ const Timer = (props) => {
   const handleCreateQRCode = async () => {
     // handlePause();
     // countdownInterval();
-    // const url = 'https://foocus.vercel.app/timers?timerId='+props.itemId+'&uid='+props.uid;
-    const url = 'http://localhost:3000/timers?timerId='+props.itemId+'&uid='+props.uid;
+    const url = 'https://foocus.vercel.app/timers?timerId='+props.itemId+'&uid='+props.uid;
+    //const url = 'http://localhost:3000/timers?timerId='+props.itemId+'&uid='+props.uid;
     console.log(url);
     setQRValue(url);
     setQRVisible(true);
