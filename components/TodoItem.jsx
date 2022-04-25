@@ -5,8 +5,8 @@ import { DeleteIcon } from '@chakra-ui/icons'
 function TodoItem(props) {
 
   function handleToTimer(){
-    const url = 'https://foocus.vercel.app/timers?timerId='+props.itemId+'&uid='+props.uid;
-    // const url = 'http://localhost:3000/timers?timerId='+props.itemId+'&uid='+props.uid;
+    // const url = 'https://foocus.vercel.app/timers?timerId='+props.itemId+'&uid='+props.uid;
+    const url = 'http://localhost:3000/timers?timerId='+props.itemId+'&uid='+props.uid;
     window.open(url, '_blank');
   }
 

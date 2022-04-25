@@ -51,7 +51,7 @@ function Todolist(props) {
   function handleChange(event) {
     const newValue = event.target.value;
     setInputText(newValue);
-    setTotalTime(Math.floor(Math.random() * 300+100));
+    
   }
 
   function addItem(e) {
