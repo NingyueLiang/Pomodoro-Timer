@@ -87,16 +87,13 @@ const Timer = (props) => {
         let timeArray = second2TimeList(leftSec); //timeArray: [min, sec]
         setMinutes(timeArray[0]);
         setSeconds(timeArray[1]);
-
-        setCircularProgressValue(calculatePercentage());
       }else{
         let leftTime = data.leftTime;
         let timeArray = second2TimeList(leftTime); //timeArray: [min, sec]
         setMinutes(timeArray[0]);
         setSeconds(timeArray[1]);
-    }
+      }
   });
-
   }, [])
   
 
@@ -208,6 +205,8 @@ const Timer = (props) => {
           }
         }
       }
+
+      setCircularProgressValue(calculatePercentage());
     }, 1000);
     return () => {
       clearInterval(countdownInterval);
@@ -258,6 +257,7 @@ const Timer = (props) => {
     setMinutes(25);
     setSeconds(0);
     updateReset(true);
+
     // updateReset1(true);
   }
 
@@ -293,7 +293,7 @@ const Timer = (props) => {
   const calculatePercentage = () => {
     const fullTimerCount = 25 * 60; //25 minutes * 60 seconds
     const currentTimerCount = (minutes * 60) + seconds;
-
+    console.log('trigger')
     return (currentTimerCount / fullTimerCount) * 100;
   };
 
