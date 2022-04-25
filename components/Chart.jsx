@@ -1,10 +1,34 @@
 import React, { useCallback, useState, useEffect } from "react";
-import { PieChart, Pie, Sector } from "recharts";
+import { PieChart, Pie, Sector, BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import {db, auth } from "../firebase/clientApp"
 import { addDoc, getDocs,deleteDoc, doc, collection } from "firebase/firestore";
+import PropTypes from 'prop-types';
+import { scaleOrdinal } from 'd3-scale';
+import { schemeCategory10 } from 'd3-scale-chromatic';
 
+//bar chart
+const colors = scaleOrdinal(schemeCategory10).range();
 
+const getPath = (x, y, width, height) => `M${x},${y + height}
+          C${x + width / 3},${y + height} ${x + width / 2},${y + height / 3} ${x + width / 2}, ${y}
+          C${x + width / 2},${y + height / 3} ${x + (2 * width) / 3},${y + height} ${x + width}, ${y + height}
+          Z`;
 
+const TriangleBar = (props) => {
+  const { fill, x, y, width, height } = props;
+
+  return <path d={getPath(x, y, width, height)} stroke="none" fill={fill} />;
+};
+
+TriangleBar.propTypes = {
+  fill: PropTypes.string,
+  x: PropTypes.number,
+  y: PropTypes.number,
+  width: PropTypes.number,
+  height: PropTypes.number,
+};
+
+//piechart
 const renderActiveShape = (props) => {
   const RADIAN = Math.PI / 180;
   const {
@@ -107,24 +131,50 @@ function Chart(props) {
   }
 
   return (
-    <div className="chart">
-      <h1>Time Spent(Min) on Each Task:</h1>
-      <PieChart width={600} height={600} id = "pie">
-        <Pie
-          activeIndex={activeIndex}
-          activeShape={renderActiveShape}
-          data={data}
-          cx={300}
-          cy={300}
-          innerRadius={90}
-          outerRadius={120}
-          fill="#50a3a2"
-          dataKey="value"
-          onMouseEnter={onPieEnter}
-        />
-      </PieChart>
-      <button onClick={back_main}>Close</button>
-    </div>
+
+    <>
+     <h1>Time Spent On Each Task:</h1>
+      
+        <PieChart width={800} height={800} >
+          <Pie
+            activeIndex={activeIndex}
+            activeShape={renderActiveShape}
+            data={data}
+            cx={300}
+            cy={300}
+            innerRadius={90}
+            outerRadius={120}
+            fill="#50a3a2"
+            dataKey="value"
+            onMouseEnter={onPieEnter}
+          />
+        </PieChart>
+      
+   
+        <BarChart
+            width={700}
+            height={500}
+            data={data}
+            margin={{
+              top: 20,
+              right: 30,
+              left: 20,
+              bottom: 5,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Bar dataKey="value" fill="#8884d8" shape={<TriangleBar />} label={{ position: 'left' }}>
+              {data.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={colors[index % 20]} />
+              ))}
+            </Bar>
+          </BarChart>
+          <button onClick={back_main}>Close</button>
+    </>  
+       
+    
   );
     
 }

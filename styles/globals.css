@@ -178,7 +178,7 @@ li {
   cursor: pointer;
 }
 
-.chart { 
+/* .chart { 
   text-align: center;
   width: 70%;
   margin: auto;
@@ -189,13 +189,13 @@ li {
   
   color:#50a3a2;
   
-}
+} */
 
-#pie{
+/* #pie{
  position: relative;
  left: 50%;
-}
-.chart button {
+} */
+/* .chart button {
   display: inline;
   background-color: #50a3a2;
   border: 5px;
@@ -209,7 +209,7 @@ li {
   cursor: pointer;
   float:none;
 
-}
+} */
 
 button:hover{
   background-color: #a9d4d3;

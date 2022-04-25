@@ -202,6 +202,7 @@ const Timer = (props) => {
         else if (seconds == 0) {
           if (minutes == 0) {
             clearInterval(countdownInterval);
+            handleReset();
           }
           else {
             setMinutes(minutes - 1);
