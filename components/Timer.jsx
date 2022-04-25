@@ -35,15 +35,19 @@ const Timer = (props) => {
   const collection_dir = `users/${uid}/todos`;
   const cur_doc = doc(db, collection_dir, itemId);
   const unsub = onSnapshot(doc(db, collection_dir, itemId), (doc) => {
-    setIsCountingDown(doc.data().isActive);
-    if (doc.data().resetState&&!doc.data().isActive){
-      console.log('test1', doc.data().isReset)
-      setMinutes(25);
-      setSeconds(0);
+    if(doc.data()){
+      setIsCountingDown(doc.data().isActive);
+      if (doc.data().resetState&&!doc.data().isActive){
+        console.log('test1', doc.data().isReset)
+        setMinutes(25);
+        setSeconds(0);
 
-      // updateReset(false);
+        // updateReset(false);
+      }
+    }else{
+      const url = 'https://foocus.vercel.app';
+      window.open(url, '_self');
     }
-
   });
 
 

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import { PieChart, Pie, Sector } from "recharts";
 import {db, auth } from "../firebase/clientApp"
 import { addDoc, getDocs,deleteDoc, doc, collection } from "firebase/firestore";
@@ -82,13 +82,14 @@ const renderActiveShape = (props) => {
 function Chart(props) {
   const [tasks,setTasks] = useState([]);
   const postsCollectionRef = collection(db, `users/${auth.currentUser.uid}/todos`);
-  const getItems = async () => {
-    const data = await getDocs(postsCollectionRef);
-    setTasks(data.docs.map((doc) => ({...doc.data()})));
-    
-  };
- 
-  getItems();
+  useEffect(() => {
+    const getItems = async () => {
+      const data = await getDocs(postsCollectionRef);
+      setTasks(data.docs.map((doc) => ({...doc.data()})));
+      
+    };
+    getItems();
+  });
   const data = tasks.map(({inputText, totalTime}) => ({name: inputText, value: totalTime}))
 
   
