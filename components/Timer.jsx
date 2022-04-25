@@ -87,6 +87,8 @@ const Timer = (props) => {
         let timeArray = second2TimeList(leftSec); //timeArray: [min, sec]
         setMinutes(timeArray[0]);
         setSeconds(timeArray[1]);
+
+        setCircularProgressValue(calculatePercentage());
       }else{
         let leftTime = data.leftTime;
         let timeArray = second2TimeList(leftTime); //timeArray: [min, sec]
