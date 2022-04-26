@@ -24,18 +24,11 @@ export default function Home() {
       {loading && <h4>Loading...</h4>}
       {!user && <Auth />}
       {user && 
-<<<<<<< Updated upstream
-        <>
-          <Header pos='absolute' isLoggedIn={user}/>
-       
-          <Chart />
-=======
        <Box>
        <Header pos='absolute' isLoggedIn={user}/>
          <Box  bg='gray.100'>
            
              <Chart />
->>>>>>> Stashed changes
           
          </Box >
       </Box>

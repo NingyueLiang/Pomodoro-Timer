@@ -49,20 +49,14 @@ const Timer = (props) => {
     }else{
       window.setTimeout(function(){
 
-<<<<<<< Updated upstream
-      window.location.href = "https://foocus.vercel.app/";
-=======
         window.location.href = "https://foocus.vercel.app";
   
       }, 3000);
     }
   });
->>>>>>> Stashed changes
 
-    }, 3000);
-    }
-  }
-  );
+  
+
 
   const getTitle = async () => {
     const cur_doc = doc(db, collection_dir, itemId);

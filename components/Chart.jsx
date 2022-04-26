@@ -1,9 +1,6 @@
 import React, { useCallback, useState, useEffect } from "react";
 import { PieChart, Pie, Sector } from "recharts";
 import {db, auth } from "../firebase/clientApp"
-<<<<<<< Updated upstream
-import { addDoc, getDocs,deleteDoc, doc, collection } from "firebase/firestore";
-=======
 import { addDoc, getDocs,deleteDoc, doc, collection,where ,query } from "firebase/firestore";
 import { Radio, RadioGroup, Stack, Box, Text, Heading } from '@chakra-ui/react'
 import PropTypes from 'prop-types';
@@ -13,7 +10,6 @@ import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 import Header from "./Header";
->>>>>>> Stashed changes
 
 
 
@@ -142,26 +138,6 @@ function Chart(props) {
   }
 
   return (
-<<<<<<< Updated upstream
-    <div className="chart">
-      <h1>Time Spent(Min) on Each Task:</h1>
-      <PieChart width={600} height={600} id = "pie">
-        <Pie
-          activeIndex={activeIndex}
-          activeShape={renderActiveShape}
-          data={data}
-          cx={300}
-          cy={300}
-          innerRadius={90}
-          outerRadius={120}
-          fill="#50a3a2"
-          dataKey="value"
-          onMouseEnter={onPieEnter}
-        />
-      </PieChart>
-      <button onClick={back_main}>Close</button>
-    </div>
-=======
 
     <>
      <h1>Time Spent On Each Task:</h1>
@@ -231,7 +207,6 @@ function Chart(props) {
     </>  
        
     
->>>>>>> Stashed changes
   );
     
 }
