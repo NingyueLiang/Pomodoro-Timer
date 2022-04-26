@@ -3,7 +3,7 @@ import React, { useCallback, useState, useEffect } from "react";
 import { PieChart, Pie, Sector, BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import {db, auth } from "../firebase/clientApp"
 import { addDoc, getDocs,deleteDoc, doc, collection,where ,query } from "firebase/firestore";
-import { Radio, Center, WrapItem, Wrap, Text, Heading } from '@chakra-ui/react'
+import { Button, Center, WrapItem, Wrap, Text, Heading } from '@chakra-ui/react'
 import PropTypes from 'prop-types';
 import { scaleOrdinal } from 'd3-scale';
 import { schemeCategory10 } from 'd3-scale-chromatic';
@@ -233,9 +233,10 @@ function Chart(props) {
           </Center>
         </WrapItem>
       </Wrap>
+
+      <Button mx={5} colorScheme='green' variant='solid' onClick={back_main}>Go Back</Button>
     </>
         } 
-          <button onClick={back_main}>Close</button>
     </>  
        
     
