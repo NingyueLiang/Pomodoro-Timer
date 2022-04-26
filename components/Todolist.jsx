@@ -145,7 +145,7 @@ function Todolist(props) {
           spacing={2}
           align='normal'
         >  
-          <Heading size='sm' m={5}>To-Do:</Heading>
+          <Heading size='sm' m={5}>To-Do Task:</Heading>
           
           {items.map((item, idx) => (
             item.tag === 'To-Do' ?
@@ -160,7 +160,7 @@ function Todolist(props) {
                     toTag = {changeTag}
             /> : null
         ))}
-          <Heading size='sm' m={5}>Doing:</Heading>
+          <Heading size='sm' m={5}>Doing Task:</Heading>
           {items.map((item, idx) => (
             item.tag === 'Doing' ?
             <TodoItem 
@@ -174,7 +174,7 @@ function Todolist(props) {
                     toTag = {changeTag}
             /> : null
         ))}
-          <Heading size='sm' m={5}>Done:</Heading>
+          <Heading size='sm' m={5}>Done Task:</Heading>
           {items.map((item, idx) => (
             item.tag === 'Done' ?
             <TodoItem 
