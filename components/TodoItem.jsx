@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Button, ButtonGroup, IconButton, Center, Flex, Spacer, AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay, useDisclosure } from '@chakra-ui/react'
+import { Button, ButtonGroup, IconButton, Center, Flex, Spacer, AlertDialog, AlertDialogBody, Select, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay, useDisclosure } from '@chakra-ui/react'
 import { DeleteIcon } from '@chakra-ui/icons'
 
 function TodoItem(props) {
-
+ 
   function handleToTimer(){
     const url = 'https://foocus.vercel.app/timers?timerId='+props.itemId+'&uid='+props.uid;
     //const url = 'http://localhost:3000/timers?timerId='+props.itemId+'&uid='+props.uid;
@@ -17,15 +17,24 @@ function TodoItem(props) {
   const handleDelete = () => {
     props.toDelete(props.itemId);
   };
-
+  function updateTag(event){
+  
+    
+    props.toTag(props.itemId, event.target.value);
+  }
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = React.useRef();
 
   return (
     <>
     <Flex wrap='wrap'>
-      <Center>{props.name}</Center>
+      <Center marginInlineStart={5}>{props.name}</Center>
       <Spacer />
+      <Select width={"25%"} placeholder = {props.tag} marginRight={2} onChange = {updateTag}>
+              <option value= 'To-Do'>To-Do</option>
+              <option value= 'Doing'>Doing</option>
+              <option value= 'Done'>Done</option>
+      </Select>
       <ButtonGroup ml={2}>
         <Button onClick={handleToTimer} px={2} colorScheme='green'>Timer</Button>
         <IconButton colorScheme='red' aria-label='Delete ToDo' icon={<DeleteIcon />} onClick={handleDeleteAttempt}></IconButton>

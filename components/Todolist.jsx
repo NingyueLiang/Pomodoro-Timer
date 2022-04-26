@@ -1,23 +1,27 @@
 import React, { useState, useEffect } from "react";
 import TodoItem from "./TodoItem";
 import {db, auth } from "../firebase/clientApp"
-import { addDoc, getDocs,deleteDoc, doc, collection, onSnapshot } from "firebase/firestore";
-import { Heading, Box, Center, Input, InputGroup, InputRightElement, VStack, StackDivider, IconButton } from '@chakra-ui/react'
+import { addDoc, getDocs,deleteDoc, updateDoc, query, where, doc, collection, onSnapshot } from "firebase/firestore";
+import { Heading, Box, Center, Input, InputGroup, Text, InputRightElement, VStack, StackDivider, IconButton, Select } from '@chakra-ui/react'
 import { AddIcon } from '@chakra-ui/icons'
+
 
 
 function Todolist(props) {
   const [inputText, setInputText] = useState("");
+  const [tag, setTag] = useState('To-Do');
+  
   const [totalTime, setTotalTime] = useState(1);
   const [createDate, setCreateDate] = useState(new Date());
   const [timeSet, setTimeSet] = useState([]);
   const [items, setItems] = useState([]);
+
   const [showElem, setShowElem] = useState(true);
   const postsCollectionRef = collection(db, `users/${auth.currentUser.uid}/todos`);
 
   const add2DB = async () => {
     await addDoc(postsCollectionRef, {
-      inputText, totalTime, createDate, timeSet,
+      inputText, totalTime, createDate, tag, timeSet,
       author: { name: auth.currentUser.displayName, id: auth.currentUser.uid },
       isActive: false,
       resetState: false,
@@ -30,6 +34,7 @@ function Todolist(props) {
     const getItems = async () => {
       const data = await getDocs(postsCollectionRef);
       setItems(data.docs.map((doc) => ({...doc.data(), id: doc.id })));
+      
     };
 
     getItems();
@@ -48,12 +53,31 @@ function Todolist(props) {
     
   };
 
+  const changeTag = async (id, newTag) => {
+    const getItems = async () => {
+      const data = await getDocs(postsCollectionRef);
+      setItems(data.docs.map((doc) => ({...doc.data(), id: doc.id })));
+    };
+    getItems();
+
+    const postDoc = doc(db, `users/${auth.currentUser.uid}/todos`, id);
+    await updateDoc(postDoc, {tag: newTag});
+    
+  };
+
 
   function handleChange(event) {
     const newValue = event.target.value;
     setInputText(newValue);
     
   }
+
+  function tagChange(event) {
+    const tagValue = event.target.value;
+    setTag(tagValue);
+    
+  }
+  
 
   function addItem(e) {
     e.preventDefault();
@@ -101,7 +125,15 @@ function Todolist(props) {
       </Center>
         <form onSubmit={addItem}>
           <InputGroup size='lg' mt={1} mb={6}>
+          
+          <Select width={"40%"} placeholder = "To-Do" marginRight={2} onChange={tagChange}>
+              <option value= 'To-Do'>To-Do</option>
+              <option value= 'Doing'>Doing</option>
+              <option value= 'Done'>Done</option>
+          </Select>
+         
             <Input onChange={handleChange} value={inputText} bg='gray.200' placeholder='Add new...' />
+            
             <InputRightElement mx={1}>
               <IconButton colorScheme='green' aria-label='Add new ToDo' icon={<AddIcon />} onClick={addItem}></IconButton>
             </InputRightElement>
@@ -113,15 +145,48 @@ function Todolist(props) {
           spacing={2}
           align='normal'
         >  
+          <Heading size='sm' m={5}>To-Do:</Heading>
+          
           {items.map((item, idx) => (
-              <TodoItem
-                key={idx}
-                itemId={item.id}
-                uid={auth.currentUser.uid}
-                name={item.inputText}
-                toDelete={deleteItem}
-                toTimer={handleToTimer}
-              />
+            item.tag === 'To-Do' ?
+            <TodoItem 
+                    key={idx}
+                    itemId={item.id}
+                    uid={auth.currentUser.uid}
+                    name={item.inputText}
+                    tag={item.tag}
+                    toDelete={deleteItem}
+                    toTimer={handleToTimer}
+                    toTag = {changeTag}
+            /> : null
+        ))}
+          <Heading size='sm' m={5}>Doing:</Heading>
+          {items.map((item, idx) => (
+            item.tag === 'Doing' ?
+            <TodoItem 
+                    key={idx}
+                    itemId={item.id}
+                    uid={auth.currentUser.uid}
+                    name={item.inputText}
+                    tag={item.tag}
+                    toDelete={deleteItem}
+                    toTimer={handleToTimer}
+                    toTag = {changeTag}
+            /> : null
+        ))}
+          <Heading size='sm' m={5}>Done:</Heading>
+          {items.map((item, idx) => (
+            item.tag === 'Done' ?
+            <TodoItem 
+                    key={idx}
+                    itemId={item.id}
+                    uid={auth.currentUser.uid}
+                    name={item.inputText}
+                    tag={item.tag}
+                    toDelete={deleteItem}
+                    toTimer={handleToTimer}
+                    toTag = {changeTag}
+            /> : null
         ))}
         </VStack>
     </Box>
