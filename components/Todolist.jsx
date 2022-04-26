@@ -11,7 +11,7 @@ function Todolist(props) {
   const [inputText, setInputText] = useState("");
   const [tag, setTag] = useState('To-Do');
   
-  const [totalTime, setTotalTime] = useState(1);
+  const [totalTime, setTotalTime] = useState(0.0);
   const [createDate, setCreateDate] = useState(new Date());
   const [timeSet, setTimeSet] = useState([]);
   const [items, setItems] = useState([]);
@@ -126,10 +126,10 @@ function Todolist(props) {
         <form onSubmit={addItem}>
           <InputGroup size='lg' mt={1} mb={6}>
           
-          <Select width={"40%"} placeholder = "To-Do" marginRight={2} onChange={tagChange}>
+          <Select width={"40%"} marginRight={2} onChange={tagChange}>
               <option value= 'To-Do'>To-Do</option>
-              <option value= 'Doing'>Doing</option>
-              <option value= 'Done'>Done</option>
+              <option value= 'In Progress'>In Progress</option>
+              <option value= 'Completed'>Completed</option>
           </Select>
          
             <Input onChange={handleChange} value={inputText} bg='gray.200' placeholder='Add new...' />
@@ -145,7 +145,7 @@ function Todolist(props) {
           spacing={2}
           align='normal'
         >  
-          <Heading size='sm' m={5}>To-Do Task:</Heading>
+          <Heading size='sm' m={5}>To-Do:</Heading>
           
           {items.map((item, idx) => (
             item.tag === 'To-Do' ?
@@ -160,9 +160,9 @@ function Todolist(props) {
                     toTag = {changeTag}
             /> : null
         ))}
-          <Heading size='sm' m={5}>Doing Task:</Heading>
+          <Heading size='sm' m={5}>In Progress:</Heading>
           {items.map((item, idx) => (
-            item.tag === 'Doing' ?
+            item.tag === 'In Progress' ?
             <TodoItem 
                     key={idx}
                     itemId={item.id}
@@ -174,9 +174,9 @@ function Todolist(props) {
                     toTag = {changeTag}
             /> : null
         ))}
-          <Heading size='sm' m={5}>Done Task:</Heading>
+          <Heading size='sm' m={5}>Completed:</Heading>
           {items.map((item, idx) => (
-            item.tag === 'Done' ?
+            item.tag === 'Completed' ?
             <TodoItem 
                     key={idx}
                     itemId={item.id}

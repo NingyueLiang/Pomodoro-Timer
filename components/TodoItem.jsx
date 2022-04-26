@@ -32,8 +32,8 @@ function TodoItem(props) {
       <Spacer />
       <Select width={"25%"} placeholder = {props.tag} marginRight={2} onChange = {updateTag}>
               <option value= 'To-Do'>To-Do</option>
-              <option value= 'Doing'>Doing</option>
-              <option value= 'Done'>Done</option>
+              <option value= 'In Progress'>In Progress</option>
+              <option value= 'Completed'>Completed</option>
       </Select>
       <ButtonGroup ml={2}>
         <Button onClick={handleToTimer} px={2} colorScheme='green'>Timer</Button>

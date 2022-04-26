@@ -211,7 +211,7 @@ const Timer = (props) => {
     // console.log(curTimeSet, totalTime, diffTime);
 
     // update totalTime
-    await updateDoc(cur_doc, { "totalTime": parseFloat(docSnap.data().totalTime+diffTime).toFixed(2)});
+    await updateDoc(cur_doc, { "totalTime": Math.round((docSnap.data().totalTime+diffTime) * 100) / 100});
 
 
   };
