@@ -1,5 +1,6 @@
+
 import React, { useCallback, useState, useEffect } from "react";
-import { PieChart, Pie, Sector } from "recharts";
+import { PieChart, Pie, Sector, BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import {db, auth } from "../firebase/clientApp"
 import { addDoc, getDocs,deleteDoc, doc, collection,where ,query } from "firebase/firestore";
 import { Radio, RadioGroup, Stack, Box, Text, Heading } from '@chakra-ui/react'
@@ -11,6 +12,27 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Header from "./Header";
 
+//bar chart
+const colors = scaleOrdinal(schemeCategory10).range();
+
+const getPath = (x, y, width, height) => `M${x},${y + height}
+          C${x + width / 3},${y + height} ${x + width / 2},${y + height / 3} ${x + width / 2}, ${y}
+          C${x + width / 2},${y + height / 3} ${x + (2 * width) / 3},${y + height} ${x + width}, ${y + height}
+          Z`;
+
+const TriangleBar = (props) => {
+  const { fill, x, y, width, height } = props;
+
+  return <path d={getPath(x, y, width, height)} stroke="none" fill={fill} />;
+};
+
+TriangleBar.propTypes = {
+  fill: PropTypes.string,
+  x: PropTypes.number,
+  y: PropTypes.number,
+  width: PropTypes.number,
+  height: PropTypes.number,
+};
 
 
 const renderActiveShape = (props) => {
