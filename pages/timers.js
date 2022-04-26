@@ -38,8 +38,10 @@ const Timers = ({ query }) => {
 
   return (
     <>
+      <Header pos='absolute' isLoggedIn={user}/>
+
+      {user &&
       <Box>
-        <Header pos='absolute' isLoggedIn={user}/>
         <Flex color='black' minH ='80vh'>
           <Box w={['65%', '70%', '75%']} bg='gray.200'>
             <Center p={1}>
@@ -61,6 +63,22 @@ const Timers = ({ query }) => {
           </Box >
         </Flex>
       </Box>
+      }
+      {!user && 
+      <Box bg='gray.200' minH = '80vh'>
+        <Center p={1}>
+          {router.isReady && ( <>
+              <Timer
+                initialMinutes={25}
+                initialSeconds={0}
+                itemId={router.query.timerId}
+                uid={router.query.uid}
+                title={curTodo}
+              />
+          </>)}
+        </Center>
+      </Box>
+      }
 
       <Center>
           <Footer />
