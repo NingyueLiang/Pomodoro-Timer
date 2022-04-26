@@ -233,8 +233,10 @@ function Chart(props) {
           </Center>
         </WrapItem>
       </Wrap>
-
-      <Button mx={5} colorScheme='green' variant='solid' onClick={back_main}>Go Back</Button>
+      
+      <Center>
+        <Button mx={5} my={5} colorScheme='green' variant='solid' onClick={back_main}>Go Back</Button>
+      </Center>
     </>
         } 
     </>  
