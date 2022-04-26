@@ -167,6 +167,7 @@ function Chart(props) {
   return (
 
     <>
+    
      <h1>Time Spent On Each Task:</h1>
      {noData && 
      <>
