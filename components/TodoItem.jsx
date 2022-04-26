@@ -30,7 +30,7 @@ function TodoItem(props) {
     <Flex wrap='wrap'>
       <Center marginInlineStart={5}>{props.name}</Center>
       <Spacer />
-      <Select width={"25%"} placeholder = {props.tag} marginRight={2} onChange = {updateTag}>
+      <Select width={"25%"} defaultValue = {props.tag} marginRight={2} onChange = {updateTag}>
               <option value= 'To-Do'>To-Do</option>
               <option value= 'In Progress'>In Progress</option>
               <option value= 'Completed'>Completed</option>
