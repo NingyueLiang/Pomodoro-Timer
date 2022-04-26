@@ -56,7 +56,6 @@ const Timer = (props) => {
   }
   );
 
-
   const getTitle = async () => {
     const cur_doc = doc(db, collection_dir, itemId);
     const docSnap = await getDoc(cur_doc);
@@ -64,9 +63,6 @@ const Timer = (props) => {
     // console.log("title data:", docSnap.data().inputText);
 
   }
-  getTitle();
-
-
 
   const getDocument = async () => {
     const data = await getDoc(cur_doc);
@@ -81,8 +77,8 @@ const Timer = (props) => {
     return [min, sec];
   }
 
+  // code to run on component mount
   useEffect(() => {
-    // code to run on component mount
     console.log("window onload");
     getDocument().then(data=>{
       console.log('check:', data);
@@ -103,9 +99,35 @@ const Timer = (props) => {
         setMinutes(timeArray[0]);
         setSeconds(timeArray[1]);
       }
+
+      getTitle();
   });
   }, [])
   
+  //code to run on interval
+  useEffect(() => {
+    const countdownInterval = setInterval(() => {
+      if (isCountingDown) {
+        if (seconds > 0) {
+          setSeconds(seconds - 1);
+        }
+        else if (seconds == 0) {
+          if (minutes == 0) {
+            clearInterval(countdownInterval);
+          }
+          else {
+            setMinutes(minutes - 1);
+            setSeconds(59);
+          }
+        }
+      }
+
+      setCircularProgressValue(calculatePercentage());
+    }, 1000);
+    return () => {
+      clearInterval(countdownInterval);
+    };
+  });
 
 
 
@@ -195,34 +217,7 @@ const Timer = (props) => {
 
   const updateLeftTime = async (leftTime) => {
     await updateDoc(cur_doc, { "leftTime": leftTime });
-  };
-
-
-
-  useEffect(() => {
-    const countdownInterval = setInterval(() => {
-      if (isCountingDown) {
-        if (seconds > 0) {
-          setSeconds(seconds - 1);
-        }
-        else if (seconds == 0) {
-          if (minutes == 0) {
-            clearInterval(countdownInterval);
-          }
-          else {
-            setMinutes(minutes - 1);
-            setSeconds(59);
-          }
-        }
-      }
-
-      setCircularProgressValue(calculatePercentage());
-    }, 1000);
-    return () => {
-      clearInterval(countdownInterval);
-    };
-  });
-  
+  };  
 
   const handleStart = () => {
     // var myDate = new Date();

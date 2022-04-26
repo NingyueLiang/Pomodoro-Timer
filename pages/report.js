@@ -25,7 +25,7 @@ export default function Home() {
       {!user && <Auth />}
       {user && 
         <>
-          <Header />
+          <Header pos='absolute' isLoggedIn={user}/>
        
           <Chart />
           
