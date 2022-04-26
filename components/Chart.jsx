@@ -3,7 +3,7 @@ import React, { useCallback, useState, useEffect } from "react";
 import { PieChart, Pie, Sector, BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import {db, auth } from "../firebase/clientApp"
 import { addDoc, getDocs,deleteDoc, doc, collection,where ,query } from "firebase/firestore";
-import { Radio, RadioGroup, Stack, Box, Text, Heading } from '@chakra-ui/react'
+import { Radio, Center, WrapItem, Wrap, Text, Heading } from '@chakra-ui/react'
 import PropTypes from 'prop-types';
 import { scaleOrdinal } from 'd3-scale';
 import { schemeCategory10 } from 'd3-scale-chromatic';
@@ -171,65 +171,70 @@ function Chart(props) {
      <h1>Time Spent On Each Task:</h1>
      {noData && 
      <>
-      <Box>
-      <Text>Please select the range of dates your report shows(All time by default):</Text>
+      <Center>
+        <Text>Please select the range of dates your report shows(All time by default):</Text>
         <Text>Enter the start day of your report:</Text>
         <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
         <Text>Enter the end day of your report:</Text>
         <DatePicker selected={endDate} onChange={(date) => setEndDate(date)} />
-
-      </Box>
+      </Center>
      <Heading>No Tasks Created Within This Range.</Heading>
      </>}
      {!noData &&
      <> 
-      <Box>
-      <Text>Please select the range of dates your report shows(All time by default):</Text>
+      <Center>
+        <Text>Please select the range of dates your report shows(All time by default):</Text>
         <Text>Enter the start day of your report:</Text>
         <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
         <Text>Enter the end day of your report:</Text>
         <DatePicker selected={endDate} onChange={(date) => setEndDate(date)} />
-
-      </Box>
+      </Center>
       
-      
-        <PieChart width={800} height={800} >
-          <Pie
-            activeIndex={activeIndex}
-            activeShape={renderActiveShape}
-            data={data}
-            cx={300}
-            cy={300}
-            innerRadius={90}
-            outerRadius={120}
-            fill="#50a3a2"
-            dataKey="value"
-            onMouseEnter={onPieEnter}
-          />
-        </PieChart>
-      
-   
-        <BarChart
-            width={700}
-            height={500}
-            data={data}
-            margin={{
-              top: 20,
-              right: 30,
-              left: 20,
-              bottom: 5,
-            }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Bar dataKey="value" fill="#8884d8" shape={<TriangleBar />} label={{ position: 'left' }}>
-              {data.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={colors[index % 20]} />
-              ))}
-            </Bar>
-          </BarChart>
-          </>
+      <Wrap>
+        <WrapItem>
+          <Center>
+            <PieChart width={800} height={800} >
+              <Pie
+                activeIndex={activeIndex}
+                activeShape={renderActiveShape}
+                data={data}
+                cx={300}
+                cy={300}
+                innerRadius={90}
+                outerRadius={120}
+                fill="#50a3a2"
+                dataKey="value"
+                onMouseEnter={onPieEnter}
+              />
+            </PieChart>
+          </Center>
+        </WrapItem>
+        <WrapItem>
+          <Center>
+            <BarChart
+              width={700}
+              height={500}
+              data={data}
+              margin={{
+                top: 20,
+                right: 30,
+                left: 20,
+                bottom: 5,
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Bar dataKey="value" fill="#8884d8" shape={<TriangleBar />} label={{ position: 'left' }}>
+                {data.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={colors[index % 20]} />
+                ))}
+              </Bar>
+            </BarChart>
+          </Center>
+        </WrapItem>
+      </Wrap>
+    </>
         } 
           <button onClick={back_main}>Close</button>
     </>  
