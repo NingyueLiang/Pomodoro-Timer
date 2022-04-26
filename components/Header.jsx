@@ -23,10 +23,15 @@ function Header(props) {
         window.open(url, '_self');
     }
 
+    function backToHomePage(){
+        const url = 'https://foocus.vercel.app/';
+        window.open(url, '_self');
+    }
+
     return (
         <Flex bgGradient='linear(green.300 0%, green.400 80%, green.300 100%)' minW='100%'>
             <Box p={2}>
-                <Heading color='white' size='lg' ml={5}>Foocus</Heading>
+                <Heading color='white' size='lg' ml={5} onClick={backToHomePage}>Foocus</Heading>
             </Box>
             <Spacer/>
             <Box p={2}>
