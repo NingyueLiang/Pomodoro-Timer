@@ -27,7 +27,7 @@ function Header(props) {
             <Box p={2}>
                 {props.isLoggedIn &&
                     <>
-                        <Button mx={5} colorScheme='purple' variant='outline' onClick={showReport}>
+                        <Button mx={5} colorScheme='purple' variant='solid' onClick={showReport}>
                             My Stats
                         </Button>
                         <Button colorScheme='black' variant='outline' bgColor='white' onClick={signOutUser}>
