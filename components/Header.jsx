@@ -37,7 +37,7 @@ function Header(props) {
                 }
                 {!props.isLoggedIn &&
                     <Button colorScheme='black' variant='outline' bgColor='white' onClick={openLoginPage}>
-                        Log in
+                        Log in 
                     </Button>
                 }
             </Box>
