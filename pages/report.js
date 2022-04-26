@@ -8,6 +8,8 @@ import Chart from "../components/Chart";
 
 import { useAuthState } from "react-firebase-hooks/auth";
 import firebase from "../firebase/clientApp";
+import { Center, Box } from '@chakra-ui/react'
+
 
 export default function Home() {
   // const [curTodo, setCurTodo] = useState();
@@ -20,17 +22,17 @@ export default function Home() {
   const [user, loading, error] = useAuthState(firebase.auth());
 
   return (
-    <div>
+    <>
       {loading && <h4>Loading...</h4>}
       {!user && <Auth />}
       {user && 
-        <>
-          <Header pos='absolute' isLoggedIn={user}/>
-       
+      <Center>
+        <Header pos='absolute' isLoggedIn={user}/>
+        <Box  bg='gray.100'>         
           <Chart />
-          
-          <Footer />
-        </>}
-    </div>
+        </Box >
+      </Center>
+     }
+     </>
   );
 }
