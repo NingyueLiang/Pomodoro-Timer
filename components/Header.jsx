@@ -13,6 +13,11 @@ function Header(props) {
         window.open(url, '_self');
     }
 
+    function openLoginPage() {
+        const url = 'https://foocus.vercel.app/';
+        window.open(url, '_self');
+    }
+
     return (
         <Flex bgGradient='linear(green.300 0%, green.400 80%, green.300 100%)' minW='100%'>
             <Box p={2}>
@@ -29,6 +34,11 @@ function Header(props) {
                             Logout
                         </Button>
                     </>
+                }
+                {!props.isLoggedIn &&
+                    <Button colorScheme='black' variant='outline' bgColor='white' onClick={openLoginPage}>
+                        Log in
+                    </Button>
                 }
             </Box>
         </Flex>   
