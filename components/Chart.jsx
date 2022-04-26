@@ -111,7 +111,7 @@ const renderActiveShape = (props) => {
 
 function Chart(props) {
   const [tasks,setTasks] = useState([]);
-  // const [filter, setFilter] = React.useState('4')
+ 
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
   const [noData, setNoData] = useState(false);
@@ -137,15 +137,20 @@ function Chart(props) {
     };
     getItems();
     
-    if(tasks.length == 0){
-      setNoData(true);
-      console.log(noData);
-    }
+    
    
   });
+  
   const data = tasks.map(({inputText, totalTime}) => ({name: inputText, value: totalTime}))
   
- 
+  useEffect(() => {
+    if(tasks.length == 0){
+      setNoData(true);
+      
+    }else{
+      setNoData(false);
+    }
+  });
 
   const [activeIndex, setActiveIndex] = useState(0);
   const onPieEnter = useCallback(
@@ -163,7 +168,7 @@ function Chart(props) {
 
     <>
      <h1>Time Spent On Each Task:</h1>
-     {/* {noData && 
+     {noData && 
      <>
       <Box>
       <Text>Please select the range of dates your report shows(All time by default):</Text>
@@ -174,8 +179,8 @@ function Chart(props) {
 
       </Box>
      <Heading>No Tasks Created Within This Range.</Heading>
-     </>} */}
-     {noData &&
+     </>}
+     {!noData &&
      <> 
       <Box>
       <Text>Please select the range of dates your report shows(All time by default):</Text>
