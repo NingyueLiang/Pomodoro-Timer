@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { db, auth } from "../firebase/clientApp";
 import { connectFirestoreEmulator, doc, onSnapshot, updateDoc,getDocs,getDoc, arrayUnion } from "firebase/firestore";
 import { Firestore } from "firebase/firestore";
-import { Button, ButtonGroup, CircularProgress, CircularProgressLabel, Center, Box, Divider, AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay, useDisclosure, Heading } from '@chakra-ui/react'
+import { Button, ButtonGroup, CircularProgress, CircularProgressLabel, Center, Box, Divider, AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay, useDisclosure, Heading, Text } from '@chakra-ui/react'
 
 const Timer = (props) => {
   const { initialMinutes = 25, initialSeconds = 0 } = props;
@@ -49,7 +49,15 @@ const Timer = (props) => {
     }else{
       window.setTimeout(function(){
 
+<<<<<<< Updated upstream
       window.location.href = "https://foocus.vercel.app/";
+=======
+        window.location.href = "https://foocus.vercel.app";
+  
+      }, 3000);
+    }
+  });
+>>>>>>> Stashed changes
 
     }, 3000);
     }
@@ -306,6 +314,9 @@ const Timer = (props) => {
     <Box>
       {qrVisible &&
       <Box mx='auto' my={5}>
+        <Center>
+          <Text fontSize='2xl'>Scan this QR to share the timer across devices!</Text>
+        </Center>
         <Center m={5}>
           <QRCode size='192' value={qrValue} />
         </Center>

@@ -9,6 +9,7 @@ import { AddIcon } from '@chakra-ui/icons'
 function Todolist(props) {
   const [inputText, setInputText] = useState("");
   const [totalTime, setTotalTime] = useState(100);
+  const [createDate, setCreateDate] = useState(new Date());
   const [timeSet, setTimeSet] = useState([]);
   const [items, setItems] = useState([]);
   const [showElem, setShowElem] = useState(true);
@@ -16,7 +17,7 @@ function Todolist(props) {
 
   const add2DB = async () => {
     await addDoc(postsCollectionRef, {
-      inputText, totalTime, timeSet,
+      inputText, totalTime, createDate, timeSet,
       author: { name: auth.currentUser.displayName, id: auth.currentUser.uid },
       isActive: false,
       resetState: false,

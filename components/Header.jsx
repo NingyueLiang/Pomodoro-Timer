@@ -5,6 +5,13 @@ import firebase from "../firebase/clientApp";
 
 function Header(props) {
     function signOutUser(){
+<<<<<<< Updated upstream
+=======
+        
+
+        window.location.href = "https://foocus.vercel.app";
+
+>>>>>>> Stashed changes
         firebase.auth().signOut();
     }
 
