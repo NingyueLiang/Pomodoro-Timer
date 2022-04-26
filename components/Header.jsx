@@ -1,14 +1,15 @@
-import React from "react"
+import React, {useEffect} from "react"
 import { Flex, Center, Button, Box, Heading, Spacer, propNames } from '@chakra-ui/react'
 
 import firebase from "../firebase/clientApp";
 
 function Header(props) {
+    useEffect(() => {
+        document.title = "Foocus";
+     }, []);
+
     function signOutUser(){
-        
-
         window.location.href = "https://foocus.vercel.app";
-
         firebase.auth().signOut();
     }
 

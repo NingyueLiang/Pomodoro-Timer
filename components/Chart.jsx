@@ -167,8 +167,7 @@ function Chart(props) {
   return (
 
     <>
-    
-     <h1>Time Spent On Each Task:</h1>
+    <Text>Time Spent On Each Task:</Text>
      {noData && 
      <>
       <Center>
