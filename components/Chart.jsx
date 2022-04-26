@@ -3,7 +3,7 @@ import React, { useCallback, useState, useEffect } from "react";
 import { PieChart, Pie, Sector, BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import {db, auth } from "../firebase/clientApp"
 import { addDoc, getDocs,deleteDoc, doc, collection,where ,query } from "firebase/firestore";
-import { Button, Center, WrapItem, Wrap, Text, Heading } from '@chakra-ui/react'
+import { Button, Center, WrapItem, Wrap, Text, Heading, Box } from '@chakra-ui/react'
 import PropTypes from 'prop-types';
 import { scaleOrdinal } from 'd3-scale';
 import { schemeCategory10 } from 'd3-scale-chromatic';
@@ -167,32 +167,65 @@ function Chart(props) {
   return (
 
     <>
-    <Text>Time Spent On Each Task:</Text>
+    <Center>
+     <Heading as='h1' size='xl' isTruncated marginBlockStart={15} marginBlockEnd={'15'}>Time Spent On Each Task:</Heading>
+    </Center>
+    <Center>
+      <Heading as='h2' size='sm' isTruncated >Unit: Min</Heading>
+    </Center>
      {noData && 
      <>
       <Center>
-        <Text>Please select the range of dates your report shows(All time by default):</Text>
-        <Text>Enter the start day of your report:</Text>
-        <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
-        <Text>Enter the end day of your report:</Text>
-        <DatePicker selected={endDate} onChange={(date) => setEndDate(date)} />
+        <Heading as='h2' size='sm' isTruncated marginBlockEnd={'15'}> Please select the range of dates your report shows(All time by default):</Heading> 
       </Center>
-     <Heading>No Tasks Created Within This Range.</Heading>
+      <Center>
+       <Wrap spacing={10}>
+        <WrapItem >
+          <Heading as='h3' size='md' marginRight={'5'}>StartDate: </Heading>
+          <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
+        </WrapItem>
+        <WrapItem>
+          <Heading as='h3' size='md' marginRight={'5'}>EndDate: </Heading>
+          <DatePicker selected={endDate} onChange={(date) => setEndDate(date)} />
+        </WrapItem>
+      </Wrap>
+      </Center>
+        
+    <Center>
+      <Heading marginBlockStart={10}>No Tasks Created Within This Range.</Heading>
+    </Center>
+     <Center>
+        
+        <Button mx={5} my={5} colorScheme='green' variant='solid' onClick={back_main}>Go Back</Button>
+      </Center>
      </>}
      {!noData &&
-     <> 
+     <>
       <Center>
-        <Text>Please select the range of dates your report shows(All time by default):</Text>
-        <Text>Enter the start day of your report:</Text>
-        <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
-        <Text>Enter the end day of your report:</Text>
-        <DatePicker selected={endDate} onChange={(date) => setEndDate(date)} />
+        <Heading as='h2' size='sm' isTruncated marginBlockEnd={'15'}> Please select the range of dates your report shows(All time by default):</Heading> 
+      </Center>
+      <Center>
+       <Wrap spacing={10}>
+        <WrapItem >
+          <Heading as='h3' size='md' marginRight={'5'}>StartDate: </Heading>
+          <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
+        </WrapItem>
+        <WrapItem>
+          <Heading as='h3' size='md' marginRight={'5'}>EndDate: </Heading>
+          <DatePicker selected={endDate} onChange={(date) => setEndDate(date)} />
+        </WrapItem>
+      </Wrap>
       </Center>
       
       <Wrap>
         <WrapItem>
           <Center>
-            <PieChart width={800} height={800} >
+            <PieChart width={800} height={800} 
+            margin={{
+              
+              left: 70,
+              
+            }}>
               <Pie
                 activeIndex={activeIndex}
                 activeShape={renderActiveShape}
@@ -215,9 +248,9 @@ function Chart(props) {
               height={500}
               data={data}
               margin={{
-                top: 20,
+                top: 50,
                 right: 30,
-                left: 20,
+                left: 70,
                 bottom: 5,
               }}
             >
@@ -233,10 +266,11 @@ function Chart(props) {
           </Center>
         </WrapItem>
       </Wrap>
-      
-      <Center>
+      <Center >
         <Button mx={5} my={5} colorScheme='green' variant='solid' onClick={back_main}>Go Back</Button>
       </Center>
+      
+      
     </>
         } 
     </>  

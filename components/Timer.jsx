@@ -206,12 +206,12 @@ const Timer = (props) => {
     // }
     // getCurTimeSet();
      
-    const diffTime = (curTime - docSnap1.data().timeSet[docSnap1.data().timeSet.length - 1])/1000
+    const diffTime = (curTime - docSnap1.data().timeSet[docSnap1.data().timeSet.length - 1])/60000
     console.log(curTime, docSnap1.data().timeSet[docSnap1.data().timeSet.length - 1], diffTime)
     // console.log(curTimeSet, totalTime, diffTime);
 
     // update totalTime
-    await updateDoc(cur_doc, { "totalTime": parseInt(docSnap.data().totalTime+diffTime)});
+    await updateDoc(cur_doc, { "totalTime": parseFloat(docSnap.data().totalTime+diffTime).toFixed(2)});
 
 
   };

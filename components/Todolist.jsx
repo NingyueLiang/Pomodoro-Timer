@@ -8,7 +8,7 @@ import { AddIcon } from '@chakra-ui/icons'
 
 function Todolist(props) {
   const [inputText, setInputText] = useState("");
-  const [totalTime, setTotalTime] = useState(100);
+  const [totalTime, setTotalTime] = useState(1);
   const [createDate, setCreateDate] = useState(new Date());
   const [timeSet, setTimeSet] = useState([]);
   const [items, setItems] = useState([]);
