@@ -139,7 +139,7 @@ function Chart(props) {
     
     
    
-  });
+  }, []);
   
   const data = tasks.map(({inputText, totalTime}) => ({name: inputText, value: totalTime}))
   

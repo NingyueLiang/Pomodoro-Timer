@@ -30,7 +30,7 @@ function Todolist(props) {
   };
   
   useEffect(() => {
-    // console.log('test1');
+    //console.log('test1');
     const getItems = async () => {
       const data = await getDocs(postsCollectionRef);
       setItems(data.docs.map((doc) => ({...doc.data(), id: doc.id })));
@@ -38,7 +38,7 @@ function Todolist(props) {
     };
 
     getItems();
-  });
+  }, []);
 
   
   const deleteItem = async (id) => {

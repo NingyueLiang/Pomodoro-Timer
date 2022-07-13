@@ -129,7 +129,7 @@ const Timer = (props) => {
     return () => {
       clearInterval(countdownInterval);
     };
-  });
+  }, []);
 
 
 
